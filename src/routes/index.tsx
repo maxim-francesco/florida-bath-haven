@@ -13,14 +13,12 @@ import {
   Phone,
   Mail,
   MapPin,
+  X,
 } from "lucide-react";
 import heroBathroom from "@/assets/hero-bathroom.webp";
-import gallery1 from "@/assets/gallery-1.webp";
-import gallery2 from "@/assets/gallery-2.webp";
-import gallery3 from "@/assets/gallery-3.webp";
-import gallery4 from "@/assets/gallery-4.webp";
-import gallery5 from "@/assets/gallery-5.webp";
-import gallery6 from "@/assets/gallery-6.webp";
+const workImages = Object.values(
+  import.meta.glob("@/assets/work/*.webp", { eager: true, import: "default", query: "?url" })
+) as string[];
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -204,9 +202,9 @@ const SCOPES = [
 ] as const;
 
 const TIERS = [
-  { id: "standard", name: "Standard", tag: "Builder Grade", matLow: 8000, matHigh: 18000, img: gallery4, iw: 1200, ih: 1000, feats: ["Ceramic & basic porcelain tile", "Standard vanity & mirror", "Chrome fixtures", "Two-piece toilet"] },
-  { id: "premium", name: "Premium", tag: "Most Requested", matLow: 18000, matHigh: 34000, img: gallery2, iw: 1200, ih: 900, feats: ["Custom porcelain tile", "Double vanity & quartz", "Brushed nickel or matte black", "Frameless glass shower"] },
-  { id: "luxury", name: "Luxury", tag: "Signature Finish", matLow: 34000, matHigh: 70000, img: gallery1, iw: 1200, ih: 1500, feats: ["Natural stone & book-matched slabs", "Freestanding soaking tub", "Smart toilet & heated floors", "Brass or designer fixtures"] },
+  { id: "standard", name: "Standard", tag: "Builder Grade", matLow: 8000, matHigh: 18000, img: workImages[3], iw: 900, ih: 1200, feats: ["Ceramic & basic porcelain tile", "Standard vanity & mirror", "Chrome fixtures", "Two-piece toilet"] },
+  { id: "premium", name: "Premium", tag: "Most Requested", matLow: 18000, matHigh: 34000, img: workImages[13], iw: 900, ih: 1200, feats: ["Custom porcelain tile", "Double vanity & quartz", "Brushed nickel or matte black", "Frameless glass shower"] },
+  { id: "luxury", name: "Luxury", tag: "Signature Finish", matLow: 34000, matHigh: 70000, img: workImages[1], iw: 900, ih: 1200, feats: ["Natural stone & book-matched slabs", "Freestanding soaking tub", "Smart toilet & heated floors", "Brass or designer fixtures"] },
 ] as const;
 
 const fmtK = (n: number) => {
@@ -540,34 +538,91 @@ function Process() {
 }
 
 function Gallery() {
-  const images = [
-    { src: gallery1, alt: "Before and after bathroom remodel", h: "row-span-2", w: 1200, hPx: 1500 },
-    { src: gallery2, alt: "Luxury walk-in shower with marble tile", h: "", w: 1200, hPx: 900 },
-    { src: gallery3, alt: "Custom double vanity with quartz countertop", h: "row-span-2", w: 1200, hPx: 1400 },
-    { src: gallery4, alt: "Freestanding soaking tub with sunset view", h: "", w: 1200, hPx: 1000 },
-    { src: gallery5, alt: "Marble tile detail with brass drain", h: "row-span-2", w: 1200, hPx: 1300 },
-    { src: gallery6, alt: "Navy powder room with marble wall", h: "", w: 1200, hPx: 900 },
-  ];
+  const [expanded, setExpanded] = useState(false);
+  const [lightbox, setLightbox] = useState<number | null>(null);
+  const visible = expanded ? workImages : workImages.slice(0, 9);
+
+  useEffect(() => {
+    if (lightbox === null) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setLightbox(null);
+      if (e.key === "ArrowRight") setLightbox((i) => (i === null ? null : (i + 1) % workImages.length));
+      if (e.key === "ArrowLeft") setLightbox((i) => (i === null ? null : (i - 1 + workImages.length) % workImages.length));
+    };
+    window.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
+  }, [lightbox]);
+
   return (
     <section className="py-20 sm:py-28 px-5 sm:px-8">
       <div className="mx-auto max-w-6xl">
-        <SectionHeader eyebrow="Work Gallery" title="Before, after, and everything between." />
-        <div className="mt-12 grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 auto-rows-[180px] sm:auto-rows-[240px]">
-          {images.map((img) => (
-            <div key={img.alt} className={`overflow-hidden rounded-2xl shadow-card ${img.h}`}>
+        <SectionHeader eyebrow="Work Gallery" title="Bathrooms we've finished." sub="A selection of completed remodels across Florida." />
+        <div className="mt-12 grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+          {visible.map((src, i) => (
+            <button
+              key={src}
+              onClick={() => setLightbox(i)}
+              className="group relative overflow-hidden rounded-2xl shadow-card aspect-[3/4] bg-slate-soft"
+              aria-label={`View project photo ${i + 1} of ${workImages.length}`}
+            >
               <img
-                src={img.src}
-                alt={img.alt}
-                width={img.w}
-                height={img.hPx}
+                src={src}
+                alt={`Completed bathroom remodel by Bathwright, project photo ${i + 1}`}
+                width={900}
+                height={1200}
                 loading="lazy"
                 decoding="async"
-                className="h-full w-full object-cover hover:scale-105 transition-transform duration-700"
+                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
               />
-            </div>
+            </button>
           ))}
         </div>
+
+        {!expanded && workImages.length > 9 && (
+          <div className="mt-8 flex justify-center">
+            <button
+              onClick={() => setExpanded(true)}
+              className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-6 py-3 text-sm font-medium text-foreground transition-colors hover:border-navy hover:text-navy"
+            >
+              View all {workImages.length} photos
+              <ArrowRight size={15} strokeWidth={2} />
+            </button>
+          </div>
+        )}
       </div>
+
+      {lightbox !== null && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Project photo viewer"
+          className="fixed inset-0 z-50 bg-navy/95 flex items-center justify-center p-4 sm:p-8"
+          onClick={() => setLightbox(null)}
+        >
+          <img
+            src={workImages[lightbox]}
+            alt={`Completed bathroom remodel by Bathwright, project photo ${lightbox + 1}`}
+            width={900}
+            height={1200}
+            className="max-h-full max-w-full w-auto h-auto object-contain rounded-xl"
+            onClick={(e) => e.stopPropagation()}
+          />
+          <button
+            onClick={() => setLightbox(null)}
+            aria-label="Close photo viewer"
+            className="absolute top-4 right-4 sm:top-6 sm:right-6 h-11 w-11 grid place-items-center rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors"
+          >
+            <X size={20} strokeWidth={2} />
+          </button>
+          <div className="absolute bottom-5 left-1/2 -translate-x-1/2 text-xs tracking-widest uppercase text-white/70">
+            {lightbox + 1} / {workImages.length}
+          </div>
+        </div>
+      )}
     </section>
   );
 }
