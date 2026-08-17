@@ -51,9 +51,9 @@ function Index() {
       <Hero />
       <Services />
       <Pricing />
+      <Gallery />
       <MoneyGoes />
       <Process />
-      <Gallery />
       <Contact />
       <Footer />
     </div>
@@ -210,21 +210,39 @@ function Services() {
 }
 
 const SIZES = [
-  { id: "small", label: "Small", sqft: 40, note: "Powder / guest bath" },
-  { id: "medium", label: "Medium", sqft: 60, note: "Standard full bath" },
-  { id: "large", label: "Large", sqft: 90, note: "Primary / ensuite" },
+  { id: "small", label: "Small", sqft: 40, note: "Powder or guest bath", ppsfLow: 225, ppsfHigh: 350 },
+  { id: "medium", label: "Medium", sqft: 60, note: "Standard full bath", ppsfLow: 175, ppsfHigh: 350 },
+  { id: "large", label: "Large", sqft: 90, note: "Primary or ensuite", ppsfLow: 225, ppsfHigh: 350 },
 ] as const;
 
 const SCOPES = [
-  { id: "cosmetic", name: "Cosmetic Refresh", desc: "Paint, fixtures, vanity swap, re-tile.", laborLow: 85, laborHigh: 140 },
-  { id: "mid", name: "Mid-Range Remodel", desc: "New layout, tile shower, upgraded plumbing.", laborLow: 150, laborHigh: 225 },
-  { id: "full", name: "Full Gut & Rebuild", desc: "Down to studs, re-pipe, re-wire, waterproofing.", laborLow: 240, laborHigh: 360 },
-] as const;
-
-const TIERS = [
-  { id: "standard", name: "Standard", tag: "Builder Grade", matLow: 8000, matHigh: 18000, img: PROJECTS[0].after[0], iw: 900, ih: 1200, feats: ["Ceramic & basic porcelain tile", "Standard vanity & mirror", "Chrome fixtures", "Two-piece toilet"] },
-  { id: "premium", name: "Premium", tag: "Most Requested", matLow: 18000, matHigh: 34000, img: PROJECTS[3].after[0], iw: 900, ih: 1200, feats: ["Custom porcelain tile", "Double vanity & quartz", "Brushed nickel or matte black", "Frameless glass shower"] },
-  { id: "luxury", name: "Luxury", tag: "Signature Finish", matLow: 34000, matHigh: 70000, img: PROJECTS[6].after[0], iw: 900, ih: 1200, feats: ["Natural stone & book-matched slabs", "Freestanding soaking tub", "Smart toilet & heated floors", "Brass or designer fixtures"] },
+  {
+    id: "cosmetic",
+    name: "Cosmetic Refresh",
+    tag: "Lightest Touch",
+    desc: "The bathroom stays as it is, but looks new.",
+    position: "lower end",
+    img: PROJECTS[0].after[0],
+    feats: ["Walls and ceiling repainted", "New mirror, lighting and hardware", "New faucets, handles and holders", "New vanity, countertop or toilet", "No demolition, nothing relocated"],
+  },
+  {
+    id: "mid",
+    name: "Mid-Range Remodel",
+    tag: "Most Requested",
+    desc: "More than a refresh, short of a full rebuild.",
+    position: "middle",
+    img: PROJECTS[3].after[0],
+    feats: ["New floor and wall tile", "New shower or tub, including surrounds", "New vanity, countertop and sink", "New toilet, mirror and lighting", "Fixtures stay roughly in place"],
+  },
+  {
+    id: "full",
+    name: "Full Gut Renovation",
+    tag: "Down To The Studs",
+    desc: "Stripped back to structure and rebuilt.",
+    position: "upper end",
+    img: PROJECTS[6].after[0],
+    feats: ["Everything removed to bare structure", "Supply and drain lines checked, replaced as needed", "Electrical rewired", "New shower waterproofing", "Shower, toilet or vanity can be relocated"],
+  },
 ] as const;
 
 const fmtK = (n: number) => {
@@ -236,22 +254,16 @@ function Pricing() {
   const [step, setStep] = useState(0);
   const [sizeId, setSizeId] = useState<string | null>(null);
   const [scopeId, setScopeId] = useState<string | null>(null);
-  const [tierId, setTierId] = useState<string | null>(null);
 
   const size = SIZES.find((s) => s.id === sizeId) ?? null;
   const scope = SCOPES.find((s) => s.id === scopeId) ?? null;
-  const tier = TIERS.find((t) => t.id === tierId) ?? null;
 
-  const laborLow = size && scope ? size.sqft * scope.laborLow : 0;
-  const laborHigh = size && scope ? size.sqft * scope.laborHigh : 0;
-  const matLow = tier ? tier.matLow : 0;
-  const matHigh = tier ? tier.matHigh : 0;
-  const totalLow = laborLow + matLow;
-  const totalHigh = laborHigh + matHigh;
+  const totalLow = size ? size.sqft * size.ppsfLow : 0;
+  const totalHigh = size ? size.sqft * size.ppsfHigh : 0;
 
-  const steps = ["Size", "Scope", "Materials"];
-  const isSummary = step === 3;
-  const canNext = step === 0 ? !!sizeId : step === 1 ? !!scopeId : !!tierId;
+  const steps = ["Size", "Scope of work"];
+  const isSummary = step === 2;
+  const canNext = step === 0 ? !!sizeId : !!scopeId;
 
   return (
     <section id="pricing" className="py-20 sm:py-28 px-5 sm:px-8 bg-slate-soft">
@@ -259,7 +271,7 @@ function Pricing() {
         <SectionHeader
           eyebrow="Transparent Pricing"
           title="The detailed pricing guide."
-          sub="Build your estimate in three quick steps. Nothing hidden — watch the range update as you choose."
+          sub="Two quick steps. Our rates are per square foot, all in — labor, materials and permits."
         />
 
         <div className="mt-10 mx-auto max-w-3xl rounded-3xl bg-card border border-border shadow-elegant overflow-hidden">
@@ -272,20 +284,17 @@ function Pricing() {
                   ))}
                 </div>
                 <div className="mt-4 text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
-                  Step {step + 1} of 3 · {steps[step]}
+                  Step {step + 1} of 2 · {steps[step]}
                 </div>
               </div>
 
               <div className="px-6 sm:px-8 pt-3 pb-6">
                 <div className="grid gap-3 sm:grid-cols-3">
                   {step === 0 && SIZES.map((s) => (
-                    <OptionCard key={s.id} selected={sizeId === s.id} onClick={() => setSizeId(s.id)} title={s.label} sub={s.note} meta={`~${s.sqft} sq ft`} />
+                    <OptionCard key={s.id} selected={sizeId === s.id} onClick={() => setSizeId(s.id)} title={s.label} sub={s.note} meta={`~${s.sqft} sq ft · $${s.ppsfLow}–${s.ppsfHigh}/sq ft`} />
                   ))}
                   {step === 1 && SCOPES.map((s) => (
-                    <OptionCard key={s.id} selected={scopeId === s.id} onClick={() => setScopeId(s.id)} title={s.name} sub={s.desc} meta={`$${s.laborLow}–${s.laborHigh}/sq ft`} />
-                  ))}
-                  {step === 2 && TIERS.map((t) => (
-                    <TierCard key={t.id} tier={t} selected={tierId === t.id} onClick={() => setTierId(t.id)} />
+                    <ScopeCard key={s.id} scope={s} selected={scopeId === s.id} onClick={() => setScopeId(s.id)} />
                   ))}
                 </div>
               </div>
@@ -293,7 +302,7 @@ function Pricing() {
               <div className="border-t border-border bg-card px-6 sm:px-8 py-4 flex items-center justify-between gap-4">
                 <div>
                   <div className="text-[10px] uppercase tracking-[0.1em] text-muted-foreground">Estimate so far</div>
-                  <div className="font-display text-2xl text-navy leading-tight">{size && scope ? `${fmtK(totalLow)} – ${fmtK(totalHigh)}` : "—"}</div>
+                  <div className="font-display text-2xl text-navy leading-tight">{size ? `${fmtK(totalLow)} – ${fmtK(totalHigh)}` : "—"}</div>
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
                   {step > 0 && (
@@ -302,7 +311,7 @@ function Pricing() {
                     </button>
                   )}
                   <button onClick={() => canNext && setStep((s) => s + 1)} disabled={!canNext} className={`h-11 px-5 rounded-xl text-sm font-medium inline-flex items-center gap-1.5 transition ${canNext ? "bg-navy text-navy-foreground hover:opacity-90" : "bg-border text-muted-foreground cursor-not-allowed"}`}>
-                    {step === 2 ? "See estimate" : "Next"}
+                    {step === 1 ? "See estimate" : "Next"}
                     <ArrowRight size={16} strokeWidth={1.75} />
                   </button>
                 </div>
@@ -310,10 +319,10 @@ function Pricing() {
             </>
           )}
 
-          {isSummary && size && scope && tier && (
+          {isSummary && size && scope && (
             <div>
               <div className="relative h-44 sm:h-56 w-full overflow-hidden">
-                <img src={tier.img} alt={`${tier.name} finish example`} width={tier.iw} height={tier.ih} loading="lazy" className="h-full w-full object-cover" />
+                <img src={scope.img} alt={`${scope.name} example`} width={900} height={1200} loading="lazy" className="h-full w-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-navy/40 to-navy/10" />
                 <div className="absolute bottom-4 left-6 right-6">
                   <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-white/80">Your estimate</div>
@@ -324,22 +333,17 @@ function Pricing() {
                 <div className="flex flex-wrap gap-2">
                   <Chip>{size.label} · {size.sqft} sq ft</Chip>
                   <Chip>{scope.name}</Chip>
-                  <Chip>{tier.name}</Chip>
+                  <Chip>${size.ppsfLow}–${size.ppsfHigh}/sq ft</Chip>
                 </div>
-                <div className="mt-6 grid gap-3 sm:grid-cols-2">
-                  <div className="rounded-xl bg-slate-soft p-4">
-                    <div className="text-[10px] uppercase tracking-[0.1em] text-muted-foreground">Labor</div>
-                    <div className="mt-1 font-display text-xl text-navy">{fmtK(laborLow)} – {fmtK(laborHigh)}</div>
-                    <div className="text-[11px] text-muted-foreground mt-0.5">{size.sqft} sq ft × ${scope.laborLow}–${scope.laborHigh}</div>
-                  </div>
-                  <div className="rounded-xl bg-slate-soft p-4">
-                    <div className="text-[10px] uppercase tracking-[0.1em] text-muted-foreground">Materials</div>
-                    <div className="mt-1 font-display text-xl text-navy">{fmtK(matLow)} – {fmtK(matHigh)}</div>
-                    <div className="text-[11px] text-muted-foreground mt-0.5">{tier.name} tier, avg. bath</div>
-                  </div>
+                <div className="mt-6 rounded-xl bg-slate-soft p-4">
+                  <div className="text-[10px] uppercase tracking-[0.1em] text-muted-foreground">How this is calculated</div>
+                  <div className="mt-1 font-display text-xl text-navy">{size.sqft} sq ft × ${size.ppsfLow}–${size.ppsfHigh}</div>
+                  <p className="text-[11px] text-muted-foreground mt-1.5 leading-relaxed">
+                    A {scope.name.toLowerCase()} sits at the {scope.position} of this range. Your written quote confirms the exact figure after an on-site visit.
+                  </p>
                 </div>
                 <ul className="mt-5 grid gap-1.5 sm:grid-cols-2 text-xs text-muted-foreground">
-                  {tier.feats.map((f) => (
+                  {scope.feats.map((f) => (
                     <li key={f} className="flex gap-2"><span className="mt-1 h-1 w-1 rounded-full bg-navy shrink-0" />{f}</li>
                   ))}
                 </ul>
@@ -350,7 +354,7 @@ function Pricing() {
                       <ArrowRight size={14} strokeWidth={2.25} />
                     </span>
                   </a>
-                  <button onClick={() => { setStep(0); setSizeId(null); setScopeId(null); setTierId(null); }} className="mx-auto mt-4 flex items-center gap-1.5 text-xs font-medium text-muted-foreground hover:text-navy transition-colors">
+                  <button onClick={() => { setStep(0); setSizeId(null); setScopeId(null); }} className="mx-auto mt-4 flex items-center gap-1.5 text-xs font-medium text-muted-foreground hover:text-navy transition-colors">
                     <RotateCcw size={13} strokeWidth={2} />
                     Start over
                   </button>
@@ -361,7 +365,7 @@ function Pricing() {
         </div>
 
         <p className="mt-6 text-xs text-muted-foreground max-w-xl mx-auto text-center">
-          Ranges reflect Florida market averages for permitted, code-compliant work. Final numbers are confirmed in your written quote.
+          Rates are all-in per square foot and cover permitted, code-compliant work. Final numbers are confirmed in your written quote.
         </p>
       </div>
     </section>
@@ -386,12 +390,12 @@ function OptionCard({ selected, onClick, title, sub, meta, tag }: { selected: bo
   );
 }
 
-function TierCard({ tier, selected, onClick }: { tier: (typeof TIERS)[number]; selected: boolean; onClick: () => void }) {
+function ScopeCard({ scope, selected, onClick }: { scope: (typeof SCOPES)[number]; selected: boolean; onClick: () => void }) {
   return (
     <button onClick={onClick} aria-pressed={selected} className={`text-left rounded-2xl overflow-hidden border h-full flex flex-col transition ${selected ? "border-navy border-2 bg-slate-soft" : "border-border hover:border-navy/30"}`}>
       <div className="relative aspect-[4/3] w-full overflow-hidden">
-        <img src={tier.img} alt={`${tier.name} finish example`} width={tier.iw} height={tier.ih} className="h-full w-full object-cover" loading="lazy" />
-        <div className="absolute top-2 left-2 text-[10px] uppercase tracking-widest bg-card/90 px-2 py-1 rounded-full text-navy">{tier.tag}</div>
+        <img src={scope.img} alt={`${scope.name} finish example`} width={900} height={1200} className="h-full w-full object-cover" loading="lazy" />
+        <div className="absolute top-2 left-2 text-[10px] uppercase tracking-widest bg-card/90 px-2 py-1 rounded-full text-navy">{scope.tag}</div>
         {selected && (
           <span className="absolute top-2 right-2 h-6 w-6 rounded-full bg-navy grid place-items-center text-navy-foreground">
             <Check size={14} strokeWidth={2.5} />
@@ -400,11 +404,11 @@ function TierCard({ tier, selected, onClick }: { tier: (typeof TIERS)[number]; s
       </div>
       <div className="p-4 flex flex-col flex-1">
         <div className="flex items-baseline justify-between gap-2">
-          <span className="font-display text-xl">{tier.name}</span>
-          <span className="text-sm font-semibold text-navy">{fmtK(tier.matLow)}–{fmtK(tier.matHigh)}</span>
+          <span className="font-display text-xl">{scope.name}</span>
         </div>
+        <p className="mt-1 text-xs text-muted-foreground leading-relaxed">{scope.desc}</p>
         <ul className="mt-3 space-y-1.5 text-xs text-muted-foreground flex-1">
-          {tier.feats.map((f) => (
+          {scope.feats.map((f) => (
             <li key={f} className="flex gap-2"><span className="mt-1 h-1 w-1 rounded-full bg-navy shrink-0" />{f}</li>
           ))}
         </ul>
@@ -426,7 +430,7 @@ function MoneyGoes() {
   ];
   const bar = useInView<HTMLDivElement>();
   return (
-    <section className="py-20 sm:py-28 px-5 sm:px-8">
+    <section className="py-20 sm:py-28 px-5 sm:px-8 bg-slate-soft">
       <div className="mx-auto max-w-6xl grid gap-12 lg:grid-cols-2 lg:gap-16">
         <div className="lg:sticky lg:top-24 lg:self-start">
           <SectionHeader
@@ -521,7 +525,7 @@ function Process() {
   }, []);
 
   return (
-    <section className="py-20 sm:py-28 px-5 sm:px-8 bg-slate-soft">
+    <section className="py-20 sm:py-28 px-5 sm:px-8">
       <div className="mx-auto max-w-6xl">
         <SectionHeader eyebrow="Our Process" title="Four steps. No surprises." />
         <ol ref={containerRef} className="mt-12 relative max-w-2xl">
@@ -557,7 +561,7 @@ function Process() {
   );
 }
 
-function PhotoRow({
+function StageBlock({
   images,
   label,
   onOpen,
@@ -567,29 +571,49 @@ function PhotoRow({
   onOpen: (src: string) => void;
 }) {
   if (!images.length) return null;
+  const [lead, ...rest] = images;
   return (
     <div>
-      <div className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">{label}</div>
-      <div className="mt-3 grid grid-cols-3 gap-2 sm:gap-3">
-        {images.map((src, i) => (
-          <button
-            key={src}
-            onClick={() => onOpen(src)}
-            className="group relative overflow-hidden rounded-xl shadow-card aspect-[3/4] bg-slate-soft"
-            aria-label={`View ${label.toLowerCase()} photo ${i + 1}`}
-          >
-            <img
-              src={src}
-              alt={`${label} — bathroom remodel by Bathwright`}
-              width={900}
-              height={1200}
-              loading="lazy"
-              decoding="async"
-              className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-            />
-          </button>
-        ))}
-      </div>
+      <button
+        onClick={() => onOpen(lead)}
+        className="group relative block w-full overflow-hidden rounded-2xl aspect-[4/5] lg:aspect-[3/4] bg-slate-soft"
+        aria-label={`View ${label.toLowerCase()} photo, full size`}
+      >
+        <img
+          src={lead}
+          alt={`${label} — bathroom remodel by Bathwright`}
+          width={900}
+          height={1200}
+          loading="lazy"
+          decoding="async"
+          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+        />
+        <span className="absolute top-3 left-3 rounded-full bg-card/95 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-navy">
+          {label}
+        </span>
+      </button>
+      {rest.length > 0 && (
+        <div className="mt-2 grid grid-cols-3 gap-2">
+          {rest.map((src, i) => (
+            <button
+              key={src}
+              onClick={() => onOpen(src)}
+              className="group relative overflow-hidden rounded-lg aspect-square bg-slate-soft"
+              aria-label={`View ${label.toLowerCase()} photo ${i + 2}`}
+            >
+              <img
+                src={src}
+                alt={`${label} — bathroom remodel by Bathwright, photo ${i + 2}`}
+                width={900}
+                height={1200}
+                loading="lazy"
+                decoding="async"
+                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
@@ -605,19 +629,27 @@ function ProjectBlock({
 }) {
   const hasBefore = project.before.length > 0;
   return (
-    <div className="rounded-3xl border border-border bg-card p-5 sm:p-8 shadow-card">
+    <div className="rounded-3xl border border-border bg-card p-4 sm:p-6 lg:p-8 shadow-card">
       <div className="flex items-baseline justify-between gap-4">
-        <h3 className="font-display text-2xl text-foreground">
+        <h3 className="font-display text-xl lg:text-2xl text-foreground">
           Project {String(index + 1).padStart(2, "0")}
         </h3>
         <span className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
           {hasBefore ? "Full remodel" : "Completed work"}
         </span>
       </div>
-      <div className="mt-6 space-y-6">
-        <PhotoRow images={project.before} label="Before" onOpen={onOpen} />
-        <PhotoRow images={project.after} label="After" onOpen={onOpen} />
-      </div>
+
+      {hasBefore ? (
+        <div className="mt-5 lg:mt-6 grid gap-6 lg:grid-cols-[1fr_auto_1fr] lg:gap-6 lg:items-start">
+          <StageBlock images={project.before} label="Before" onOpen={onOpen} />
+          <div className="hidden lg:block w-px self-stretch bg-border" aria-hidden />
+          <StageBlock images={project.after} label="After" onOpen={onOpen} />
+        </div>
+      ) : (
+        <div className="mt-5 lg:mt-6">
+          <StageBlock images={project.after} label="After" onOpen={onOpen} />
+        </div>
+      )}
     </div>
   );
 }
@@ -643,14 +675,14 @@ function Gallery() {
   }, [lightbox]);
 
   return (
-    <section className="py-20 sm:py-28 px-5 sm:px-8 bg-slate-soft">
-      <div className="mx-auto max-w-5xl">
+    <section id="gallery" className="py-20 sm:py-28 px-5 sm:px-8">
+      <div className="mx-auto max-w-6xl">
         <SectionHeader
           eyebrow="Work Gallery"
-          title="Before, after, and everything between."
-          sub="Real bathrooms we've torn out and rebuilt across Florida."
+          title="What that estimate actually buys."
+          sub="Every bathroom below was gutted and rebuilt by our own crew across Florida."
         />
-        <div className="mt-12 space-y-6">
+        <div className="mt-12 space-y-6 lg:space-y-8">
           {PROJECTS.slice(0, shown).map((p, i) => (
             <ProjectBlock key={p.slug} project={p} index={i} onOpen={open} />
           ))}
