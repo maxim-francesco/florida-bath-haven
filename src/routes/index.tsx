@@ -20,6 +20,10 @@ const workImages = Object.values(
   import.meta.glob("@/assets/work/*.webp", { eager: true, import: "default", query: "?url" })
 ) as string[];
 
+const beforeImages = Object.values(
+  import.meta.glob("@/assets/before/*.webp", { eager: true, import: "default", query: "?url" })
+) as string[];
+
 export const Route = createFileRoute("/")({
   component: Index,
 });
@@ -537,17 +541,74 @@ function Process() {
   );
 }
 
-function Gallery() {
+function PhotoGrid({
+  images,
+  label,
+  initial,
+  onOpen,
+}: {
+  images: string[];
+  label: string;
+  initial: number;
+  onOpen: (src: string) => void;
+}) {
   const [expanded, setExpanded] = useState(false);
+  const visible = expanded ? images : images.slice(0, initial);
+
+  return (
+    <div>
+      <div className="flex items-baseline gap-3">
+        <h3 className="font-display text-2xl text-foreground">{label}</h3>
+        <span className="text-xs uppercase tracking-[0.14em] text-muted-foreground">
+          {images.length} photos
+        </span>
+      </div>
+      <div className="mt-6 grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+        {visible.map((src, i) => (
+          <button
+            key={src}
+            onClick={() => onOpen(src)}
+            className="group relative overflow-hidden rounded-2xl shadow-card aspect-[3/4] bg-slate-soft"
+            aria-label={`View ${label.toLowerCase()} photo ${i + 1} of ${images.length}`}
+          >
+            <img
+              src={src}
+              alt={`${label} — bathroom remodel by Bathwright, photo ${i + 1}`}
+              width={900}
+              height={1200}
+              loading="lazy"
+              decoding="async"
+              className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+            />
+          </button>
+        ))}
+      </div>
+      {!expanded && images.length > initial && (
+        <div className="mt-6 flex justify-center">
+          <button
+            onClick={() => setExpanded(true)}
+            className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-6 py-3 text-sm font-medium text-foreground transition-colors hover:border-navy hover:text-navy"
+          >
+            View all {images.length}
+            <ArrowRight size={15} strokeWidth={2} />
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function Gallery() {
+  const all = [...beforeImages, ...workImages];
   const [lightbox, setLightbox] = useState<number | null>(null);
-  const visible = expanded ? workImages : workImages.slice(0, 9);
+  const open = (src: string) => setLightbox(all.indexOf(src));
 
   useEffect(() => {
     if (lightbox === null) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setLightbox(null);
-      if (e.key === "ArrowRight") setLightbox((i) => (i === null ? null : (i + 1) % workImages.length));
-      if (e.key === "ArrowLeft") setLightbox((i) => (i === null ? null : (i - 1 + workImages.length) % workImages.length));
+      if (e.key === "ArrowRight") setLightbox((i) => (i === null ? null : (i + 1) % all.length));
+      if (e.key === "ArrowLeft") setLightbox((i) => (i === null ? null : (i - 1 + all.length) % all.length));
     };
     window.addEventListener("keydown", onKey);
     document.body.style.overflow = "hidden";
@@ -555,44 +616,20 @@ function Gallery() {
       window.removeEventListener("keydown", onKey);
       document.body.style.overflow = "";
     };
-  }, [lightbox]);
+  }, [lightbox, all.length]);
 
   return (
     <section className="py-20 sm:py-28 px-5 sm:px-8">
       <div className="mx-auto max-w-6xl">
-        <SectionHeader eyebrow="Work Gallery" title="Bathrooms we've finished." sub="A selection of completed remodels across Florida." />
-        <div className="mt-12 grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-          {visible.map((src, i) => (
-            <button
-              key={src}
-              onClick={() => setLightbox(i)}
-              className="group relative overflow-hidden rounded-2xl shadow-card aspect-[3/4] bg-slate-soft"
-              aria-label={`View project photo ${i + 1} of ${workImages.length}`}
-            >
-              <img
-                src={src}
-                alt={`Completed bathroom remodel by Bathwright, project photo ${i + 1}`}
-                width={900}
-                height={1200}
-                loading="lazy"
-                decoding="async"
-                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-              />
-            </button>
-          ))}
+        <SectionHeader
+          eyebrow="Work Gallery"
+          title="Before, after, and everything between."
+          sub="Real bathrooms we've torn out and rebuilt across Florida."
+        />
+        <div className="mt-12 space-y-16">
+          <PhotoGrid images={beforeImages} label="Before" initial={6} onOpen={open} />
+          <PhotoGrid images={workImages} label="After" initial={9} onOpen={open} />
         </div>
-
-        {!expanded && workImages.length > 9 && (
-          <div className="mt-8 flex justify-center">
-            <button
-              onClick={() => setExpanded(true)}
-              className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-6 py-3 text-sm font-medium text-foreground transition-colors hover:border-navy hover:text-navy"
-            >
-              View all {workImages.length} photos
-              <ArrowRight size={15} strokeWidth={2} />
-            </button>
-          </div>
-        )}
       </div>
 
       {lightbox !== null && (
@@ -604,8 +641,8 @@ function Gallery() {
           onClick={() => setLightbox(null)}
         >
           <img
-            src={workImages[lightbox]}
-            alt={`Completed bathroom remodel by Bathwright, project photo ${lightbox + 1}`}
+            src={all[lightbox]}
+            alt={`Bathroom remodel by Bathwright, photo ${lightbox + 1}`}
             width={900}
             height={1200}
             className="max-h-full max-w-full w-auto h-auto object-contain rounded-xl"
@@ -619,13 +656,14 @@ function Gallery() {
             <X size={20} strokeWidth={2} />
           </button>
           <div className="absolute bottom-5 left-1/2 -translate-x-1/2 text-xs tracking-widest uppercase text-white/70">
-            {lightbox + 1} / {workImages.length}
+            {lightbox < beforeImages.length ? "Before" : "After"} · {lightbox + 1} / {all.length}
           </div>
         </div>
       )}
     </section>
   );
 }
+
 
 function Contact() {
   return (
