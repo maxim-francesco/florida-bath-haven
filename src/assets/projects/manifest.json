@@ -1,0 +1,401 @@
+[
+  {
+    "slug": "p01",
+    "source": "Baie1",
+    "before": [
+      {
+        "file": "p01-before-1.webp",
+        "src": "Baie1\\Before\\58544b41-589e-4aea-bb31-8853d14d4111.jpg",
+        "bytes": 66868
+      },
+      {
+        "file": "p01-before-2.webp",
+        "src": "Baie1\\Before\\73acb1cb-7ce5-44aa-af5e-8fdcb583111b.jpg",
+        "bytes": 46790
+      },
+      {
+        "file": "p01-before-3.webp",
+        "src": "Baie1\\Before\\94c4f9fe-6415-4cef-ad5c-57f7d919924d.jpg",
+        "bytes": 60430
+      }
+    ],
+    "after": [
+      {
+        "file": "p01-after-1.webp",
+        "src": "Baie1\\After\\c5939f42-601d-468b-9450-236fbf01df11.jpg",
+        "bytes": 53378
+      },
+      {
+        "file": "p01-after-2.webp",
+        "src": "Baie1\\After\\ffcb0b1b-6077-4887-8af3-ef7ea5b9342f (1).jpg",
+        "bytes": 46786
+      },
+      {
+        "file": "p01-after-3.webp",
+        "src": "Baie1\\After\\f4e3f536-acc8-456a-91da-5158e80c1817.jpg",
+        "bytes": 44118
+      },
+      {
+        "file": "p01-after-4.webp",
+        "src": "Baie1\\After\\7f2ed449-04c8-4b49-b9c2-6613fb009863.jpg",
+        "bytes": 45474
+      }
+    ]
+  },
+  {
+    "slug": "p02",
+    "source": "Baie2",
+    "before": [
+      {
+        "file": "p02-before-1.webp",
+        "src": "Baie2\\Before\\086e9abe-da50-421e-82ad-5f288da8e296.jpg",
+        "bytes": 66116
+      },
+      {
+        "file": "p02-before-2.webp",
+        "src": "Baie2\\Before\\cd45d7a2-accf-4e31-95be-350069720f6e.jpg",
+        "bytes": 72428
+      },
+      {
+        "file": "p02-before-3.webp",
+        "src": "Baie2\\Before\\e824c829-ea4f-42e1-bf65-caaddf77b776.jpg",
+        "bytes": 51444
+      }
+    ],
+    "after": [
+      {
+        "file": "p02-after-1.webp",
+        "src": "Baie2\\After\\8c373790-2482-4011-bed7-00762ece473a.jpg",
+        "bytes": 110268
+      },
+      {
+        "file": "p02-after-2.webp",
+        "src": "Baie2\\After\\ae4da726-6ada-4581-9988-f96ebd37da0f.jpg",
+        "bytes": 93448
+      },
+      {
+        "file": "p02-after-3.webp",
+        "src": "Baie2\\After\\04659788-4ee3-4850-b4a2-531afeb9b423.jpg",
+        "bytes": 86148
+      },
+      {
+        "file": "p02-after-4.webp",
+        "src": "Baie2\\After\\57188032-958f-4286-b0e4-7de3b3e46eec.jpg",
+        "bytes": 52968
+      }
+    ]
+  },
+  {
+    "slug": "p03",
+    "source": "Baie3",
+    "before": [],
+    "after": [
+      {
+        "file": "p03-after-1.webp",
+        "src": "Baie3\\After\\6cc6b57d-06bb-4570-ab84-b900b24737d9.jpg",
+        "bytes": 53774
+      },
+      {
+        "file": "p03-after-2.webp",
+        "src": "Baie3\\After\\37a85a23-349d-4e79-a4bf-2b7a04b7be84.jpg",
+        "bytes": 49854
+      },
+      {
+        "file": "p03-after-3.webp",
+        "src": "Baie3\\After\\ad22c0c9-3eb1-44b1-9c8c-efa1ef66bd0a.jpg",
+        "bytes": 46042
+      },
+      {
+        "file": "p03-after-4.webp",
+        "src": "Baie3\\After\\69b1c693-f62a-4197-903e-64ac5eb43538.jpg",
+        "bytes": 59460
+      }
+    ]
+  },
+  {
+    "slug": "p04",
+    "source": "Baie4",
+    "before": [
+      {
+        "file": "p04-before-1.webp",
+        "src": "Baie4\\Before\\ee93c4cf-c05e-4eed-bce0-0a050783b63e.jpg",
+        "bytes": 45462
+      },
+      {
+        "file": "p04-before-2.webp",
+        "src": "Baie4\\Before\\ce18c0ba-ae17-4f80-9c7c-d1737bcbb86f.jpg",
+        "bytes": 41582
+      },
+      {
+        "file": "p04-before-3.webp",
+        "src": "Baie4\\Before\\0ca64c06-1198-4979-a23b-1b280a3a5f82.jpg",
+        "bytes": 47142
+      }
+    ],
+    "after": [
+      {
+        "file": "p04-after-1.webp",
+        "src": "Baie4\\After\\5ccedcd2-9e1b-4769-894d-882539c31a00.jpg",
+        "bytes": 55656
+      },
+      {
+        "file": "p04-after-2.webp",
+        "src": "Baie4\\After\\9163ad1a-22e6-4c02-bcbe-86e0c77e3d68.jpg",
+        "bytes": 44714
+      },
+      {
+        "file": "p04-after-3.webp",
+        "src": "Baie4\\After\\c39724e9-8e77-44e1-aaf4-8db36fba2dc9.jpg",
+        "bytes": 43950
+      },
+      {
+        "file": "p04-after-4.webp",
+        "src": "Baie4\\After\\2836223a-21f4-439e-b94a-88bf569ed5d9.jpg",
+        "bytes": 50084
+      }
+    ]
+  },
+  {
+    "slug": "p05",
+    "source": "Baie5",
+    "before": [
+      {
+        "file": "p05-before-1.webp",
+        "src": "Baie5\\Before\\f5172e81-f61b-4797-b547-a145cfc70e30.jpg",
+        "bytes": 65712
+      },
+      {
+        "file": "p05-before-2.webp",
+        "src": "Baie5\\Before\\fac7e9a9-f2c2-4fe2-842d-3dd5042b7bb9.jpg",
+        "bytes": 57804
+      }
+    ],
+    "after": [
+      {
+        "file": "p05-after-1.webp",
+        "src": "Baie5\\After\\2c7bf196-6443-46a8-ab13-dd6cd48508e3.jpg",
+        "bytes": 52992
+      },
+      {
+        "file": "p05-after-2.webp",
+        "src": "Baie5\\After\\ebbadd75-28c5-452f-92f1-02f16dde7497.jpg",
+        "bytes": 50126
+      },
+      {
+        "file": "p05-after-3.webp",
+        "src": "Baie5\\After\\3685d57d-b5ec-4878-acb7-2ce6fc4f162f.jpg",
+        "bytes": 45536
+      },
+      {
+        "file": "p05-after-4.webp",
+        "src": "Baie5\\After\\89cad7d0-4d07-4ccd-9449-1e29dbad7de4.jpg",
+        "bytes": 42300
+      }
+    ]
+  },
+  {
+    "slug": "p06",
+    "source": "Baie6",
+    "before": [
+      {
+        "file": "p06-before-1.webp",
+        "src": "Baie6\\Before\\a18608ee-657a-473c-a470-abd245f913aa.jpg",
+        "bytes": 69062
+      },
+      {
+        "file": "p06-before-2.webp",
+        "src": "Baie6\\Before\\556dc994-cad7-4c1d-8c60-63878513c2d7.jpg",
+        "bytes": 58584
+      },
+      {
+        "file": "p06-before-3.webp",
+        "src": "Baie6\\Before\\dd06001c-63b7-4b83-84fb-7984eec4982b.jpg",
+        "bytes": 45880
+      }
+    ],
+    "after": [
+      {
+        "file": "p06-after-1.webp",
+        "src": "Baie6\\After\\c03f3f81-6a3c-4f9f-b490-608dc9e67e82.jpg",
+        "bytes": 57654
+      },
+      {
+        "file": "p06-after-2.webp",
+        "src": "Baie6\\After\\98358e93-1cdb-47b6-bb90-de0d7f112581.jpg",
+        "bytes": 65286
+      },
+      {
+        "file": "p06-after-3.webp",
+        "src": "Baie6\\After\\418a6093-94d2-4e53-9403-4af684c36f86.jpg",
+        "bytes": 67304
+      }
+    ]
+  },
+  {
+    "slug": "p07",
+    "source": "Baie7",
+    "before": [
+      {
+        "file": "p07-before-1.webp",
+        "src": "Baie7\\Before\\07a05ebf-1e3b-44a6-87f0-cf69b9c18bce.jpg",
+        "bytes": 40168
+      },
+      {
+        "file": "p07-before-2.webp",
+        "src": "Baie7\\Before\\e5d6d54d-2d80-4810-b59d-c6978ec96ab9.jpg",
+        "bytes": 74418
+      },
+      {
+        "file": "p07-before-3.webp",
+        "src": "Baie7\\Before\\4a6e6ce2-910a-4d0b-b1b5-a92473b5d1f4.jpg",
+        "bytes": 66930
+      }
+    ],
+    "after": [
+      {
+        "file": "p07-after-1.webp",
+        "src": "Baie7\\After\\b9aae82f-805f-4a1d-a3aa-04136a3163b6.jpg",
+        "bytes": 68010
+      },
+      {
+        "file": "p07-after-2.webp",
+        "src": "Baie7\\After\\228c0cee-0645-4c27-8354-02e6604c0677.jpg",
+        "bytes": 69582
+      },
+      {
+        "file": "p07-after-3.webp",
+        "src": "Baie7\\After\\297b1054-2840-4a8c-bd25-4f397d83bb6e.jpg",
+        "bytes": 42698
+      },
+      {
+        "file": "p07-after-4.webp",
+        "src": "Baie7\\After\\e5725b3a-c73c-4021-b6c5-5d88faa7f959.jpg",
+        "bytes": 56924
+      }
+    ]
+  },
+  {
+    "slug": "p08",
+    "source": "Baie8",
+    "before": [],
+    "after": [
+      {
+        "file": "p08-after-1.webp",
+        "src": "Baie8\\After\\dbc0fad1-5d42-4507-b02a-e673e9294cc8.jpg",
+        "bytes": 68964
+      },
+      {
+        "file": "p08-after-2.webp",
+        "src": "Baie8\\After\\69336361-3b44-410f-b64d-eac5cbe5a982.jpg",
+        "bytes": 64178
+      },
+      {
+        "file": "p08-after-3.webp",
+        "src": "Baie8\\After\\3ecb0909-deaa-4785-9400-8e7666d5c590.jpg",
+        "bytes": 84644
+      },
+      {
+        "file": "p08-after-4.webp",
+        "src": "Baie8\\After\\99a055e6-6f0d-442f-ae57-c447ffee7bad.jpg",
+        "bytes": 88714
+      }
+    ]
+  },
+  {
+    "slug": "p09",
+    "source": "Baie9",
+    "before": [
+      {
+        "file": "p09-before-1.webp",
+        "src": "Baie9\\Before\\9c74b331-2c1f-4b92-a1e3-8ae15f8c9002.jpg",
+        "bytes": 69300
+      },
+      {
+        "file": "p09-before-2.webp",
+        "src": "Baie9\\Before\\fa6aa971-c711-47ac-ab95-155b3d63e455.jpg",
+        "bytes": 88710
+      },
+      {
+        "file": "p09-before-3.webp",
+        "src": "Baie9\\Before\\848218b3-12de-4bdd-8cbb-c0dfd65a79aa.jpg",
+        "bytes": 65328
+      }
+    ],
+    "after": [
+      {
+        "file": "p09-after-1.webp",
+        "src": "Baie9\\After\\51514a2b-97d4-484d-86cc-17b1f1df1980.jpg",
+        "bytes": 50842
+      },
+      {
+        "file": "p09-after-2.webp",
+        "src": "Baie9\\After\\666d24a6-7d94-4b20-9ff3-e57f8806a969 (1).jpg",
+        "bytes": 42118
+      },
+      {
+        "file": "p09-after-3.webp",
+        "src": "Baie9\\After\\7c9b440d-e32b-4ed5-8744-71e0879b1e61.jpg",
+        "bytes": 57294
+      },
+      {
+        "file": "p09-after-4.webp",
+        "src": "Baie9\\After\\18b857b6-c49e-4190-88b6-4d2567d08b60.jpg",
+        "bytes": 55384
+      }
+    ]
+  },
+  {
+    "slug": "p10",
+    "source": "Baie10",
+    "before": [],
+    "after": [
+      {
+        "file": "p10-after-1.webp",
+        "src": "Baie10\\After\\765a7fd5-cf24-41cb-bf07-702572aa4bea.jpg",
+        "bytes": 62124
+      },
+      {
+        "file": "p10-after-2.webp",
+        "src": "Baie10\\After\\ae929d9b-524d-4e64-946a-bad538401c77.jpg",
+        "bytes": 61776
+      },
+      {
+        "file": "p10-after-3.webp",
+        "src": "Baie10\\After\\bf750d42-2ac6-49fd-add2-8d18b9963c42.jpg",
+        "bytes": 58598
+      },
+      {
+        "file": "p10-after-4.webp",
+        "src": "Baie10\\After\\9fe53470-0197-4de1-8b23-c78cc89a1a09.jpg",
+        "bytes": 52466
+      }
+    ]
+  },
+  {
+    "slug": "p11",
+    "source": "Baie11",
+    "before": [],
+    "after": [
+      {
+        "file": "p11-after-1.webp",
+        "src": "Baie11\\After\\f066f55c-c0c8-4236-a928-53580ac99c76.jpg",
+        "bytes": 61300
+      },
+      {
+        "file": "p11-after-2.webp",
+        "src": "Baie11\\After\\a2e7b0af-64f3-4151-9d65-1e77ecb28b41.jpg",
+        "bytes": 60508
+      },
+      {
+        "file": "p11-after-3.webp",
+        "src": "Baie11\\After\\62950dd2-5b49-4f93-ab4a-57fb3176985f.jpg",
+        "bytes": 57682
+      },
+      {
+        "file": "p11-after-4.webp",
+        "src": "Baie11\\After\\63b9955b-98f0-4ac9-bf80-8285a86a4a97.jpg",
+        "bytes": 55306
+      }
+    ]
+  }
+]

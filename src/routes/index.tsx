@@ -16,13 +16,29 @@ import {
   X,
 } from "lucide-react";
 import heroBathroom from "@/assets/hero-bathroom.webp";
-const workImages = Object.values(
-  import.meta.glob("@/assets/work/*.webp", { eager: true, import: "default", query: "?url" })
-) as string[];
+const projectFiles = import.meta.glob("@/assets/projects/*.webp", {
+  eager: true,
+  import: "default",
+  query: "?url",
+}) as Record<string, string>;
 
-const beforeImages = Object.values(
-  import.meta.glob("@/assets/before/*.webp", { eager: true, import: "default", query: "?url" })
-) as string[];
+type Project = { slug: string; before: string[]; after: string[] };
+
+const PROJECTS: Project[] = (() => {
+  const map = new Map<string, Project>();
+  for (const path of Object.keys(projectFiles).sort()) {
+    const name = path.split("/").pop() ?? "";
+    const m = name.match(/^(p\d+)-(before|after)-(\d+)\.webp$/);
+    if (!m) continue;
+    const [, slug, stage] = m;
+    if (!map.has(slug)) map.set(slug, { slug, before: [], after: [] });
+    map.get(slug)![stage as "before" | "after"].push(projectFiles[path]);
+  }
+  const all = [...map.values()].sort((a, b) => a.slug.localeCompare(b.slug));
+  return [...all.filter((p) => p.before.length), ...all.filter((p) => !p.before.length)];
+})();
+
+const ALL_PHOTOS: string[] = PROJECTS.flatMap((p) => [...p.before, ...p.after]);
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -206,9 +222,9 @@ const SCOPES = [
 ] as const;
 
 const TIERS = [
-  { id: "standard", name: "Standard", tag: "Builder Grade", matLow: 8000, matHigh: 18000, img: workImages[3], iw: 900, ih: 1200, feats: ["Ceramic & basic porcelain tile", "Standard vanity & mirror", "Chrome fixtures", "Two-piece toilet"] },
-  { id: "premium", name: "Premium", tag: "Most Requested", matLow: 18000, matHigh: 34000, img: workImages[13], iw: 900, ih: 1200, feats: ["Custom porcelain tile", "Double vanity & quartz", "Brushed nickel or matte black", "Frameless glass shower"] },
-  { id: "luxury", name: "Luxury", tag: "Signature Finish", matLow: 34000, matHigh: 70000, img: workImages[1], iw: 900, ih: 1200, feats: ["Natural stone & book-matched slabs", "Freestanding soaking tub", "Smart toilet & heated floors", "Brass or designer fixtures"] },
+  { id: "standard", name: "Standard", tag: "Builder Grade", matLow: 8000, matHigh: 18000, img: PROJECTS[0].after[0], iw: 900, ih: 1200, feats: ["Ceramic & basic porcelain tile", "Standard vanity & mirror", "Chrome fixtures", "Two-piece toilet"] },
+  { id: "premium", name: "Premium", tag: "Most Requested", matLow: 18000, matHigh: 34000, img: PROJECTS[3].after[0], iw: 900, ih: 1200, feats: ["Custom porcelain tile", "Double vanity & quartz", "Brushed nickel or matte black", "Frameless glass shower"] },
+  { id: "luxury", name: "Luxury", tag: "Signature Finish", matLow: 34000, matHigh: 70000, img: PROJECTS[6].after[0], iw: 900, ih: 1200, feats: ["Natural stone & book-matched slabs", "Freestanding soaking tub", "Smart toilet & heated floors", "Brass or designer fixtures"] },
 ] as const;
 
 const fmtK = (n: number) => {
@@ -541,39 +557,30 @@ function Process() {
   );
 }
 
-function PhotoGrid({
+function PhotoRow({
   images,
   label,
-  initial,
   onOpen,
 }: {
   images: string[];
   label: string;
-  initial: number;
   onOpen: (src: string) => void;
 }) {
-  const [expanded, setExpanded] = useState(false);
-  const visible = expanded ? images : images.slice(0, initial);
-
+  if (!images.length) return null;
   return (
     <div>
-      <div className="flex items-baseline gap-3">
-        <h3 className="font-display text-2xl text-foreground">{label}</h3>
-        <span className="text-xs uppercase tracking-[0.14em] text-muted-foreground">
-          {images.length} photos
-        </span>
-      </div>
-      <div className="mt-6 grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-        {visible.map((src, i) => (
+      <div className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">{label}</div>
+      <div className="mt-3 grid grid-cols-3 gap-2 sm:gap-3">
+        {images.map((src, i) => (
           <button
             key={src}
             onClick={() => onOpen(src)}
-            className="group relative overflow-hidden rounded-2xl shadow-card aspect-[3/4] bg-slate-soft"
-            aria-label={`View ${label.toLowerCase()} photo ${i + 1} of ${images.length}`}
+            className="group relative overflow-hidden rounded-xl shadow-card aspect-[3/4] bg-slate-soft"
+            aria-label={`View ${label.toLowerCase()} photo ${i + 1}`}
           >
             <img
               src={src}
-              alt={`${label} — bathroom remodel by Bathwright, photo ${i + 1}`}
+              alt={`${label} — bathroom remodel by Bathwright`}
               width={900}
               height={1200}
               loading="lazy"
@@ -583,32 +590,49 @@ function PhotoGrid({
           </button>
         ))}
       </div>
-      {!expanded && images.length > initial && (
-        <div className="mt-6 flex justify-center">
-          <button
-            onClick={() => setExpanded(true)}
-            className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-6 py-3 text-sm font-medium text-foreground transition-colors hover:border-navy hover:text-navy"
-          >
-            View all {images.length}
-            <ArrowRight size={15} strokeWidth={2} />
-          </button>
-        </div>
-      )}
+    </div>
+  );
+}
+
+function ProjectBlock({
+  project,
+  index,
+  onOpen,
+}: {
+  project: Project;
+  index: number;
+  onOpen: (src: string) => void;
+}) {
+  const hasBefore = project.before.length > 0;
+  return (
+    <div className="rounded-3xl border border-border bg-card p-5 sm:p-8 shadow-card">
+      <div className="flex items-baseline justify-between gap-4">
+        <h3 className="font-display text-2xl text-foreground">
+          Project {String(index + 1).padStart(2, "0")}
+        </h3>
+        <span className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
+          {hasBefore ? "Full remodel" : "Completed work"}
+        </span>
+      </div>
+      <div className="mt-6 space-y-6">
+        <PhotoRow images={project.before} label="Before" onOpen={onOpen} />
+        <PhotoRow images={project.after} label="After" onOpen={onOpen} />
+      </div>
     </div>
   );
 }
 
 function Gallery() {
-  const all = [...beforeImages, ...workImages];
+  const [shown, setShown] = useState(4);
   const [lightbox, setLightbox] = useState<number | null>(null);
-  const open = (src: string) => setLightbox(all.indexOf(src));
+  const open = (src: string) => setLightbox(ALL_PHOTOS.indexOf(src));
 
   useEffect(() => {
     if (lightbox === null) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setLightbox(null);
-      if (e.key === "ArrowRight") setLightbox((i) => (i === null ? null : (i + 1) % all.length));
-      if (e.key === "ArrowLeft") setLightbox((i) => (i === null ? null : (i - 1 + all.length) % all.length));
+      if (e.key === "ArrowRight") setLightbox((i) => (i === null ? null : (i + 1) % ALL_PHOTOS.length));
+      if (e.key === "ArrowLeft") setLightbox((i) => (i === null ? null : (i - 1 + ALL_PHOTOS.length) % ALL_PHOTOS.length));
     };
     window.addEventListener("keydown", onKey);
     document.body.style.overflow = "hidden";
@@ -616,20 +640,32 @@ function Gallery() {
       window.removeEventListener("keydown", onKey);
       document.body.style.overflow = "";
     };
-  }, [lightbox, all.length]);
+  }, [lightbox]);
 
   return (
-    <section className="py-20 sm:py-28 px-5 sm:px-8">
-      <div className="mx-auto max-w-6xl">
+    <section className="py-20 sm:py-28 px-5 sm:px-8 bg-slate-soft">
+      <div className="mx-auto max-w-5xl">
         <SectionHeader
           eyebrow="Work Gallery"
           title="Before, after, and everything between."
           sub="Real bathrooms we've torn out and rebuilt across Florida."
         />
-        <div className="mt-12 space-y-16">
-          <PhotoGrid images={beforeImages} label="Before" initial={6} onOpen={open} />
-          <PhotoGrid images={workImages} label="After" initial={9} onOpen={open} />
+        <div className="mt-12 space-y-6">
+          {PROJECTS.slice(0, shown).map((p, i) => (
+            <ProjectBlock key={p.slug} project={p} index={i} onOpen={open} />
+          ))}
         </div>
+        {shown < PROJECTS.length && (
+          <div className="mt-10 flex justify-center">
+            <button
+              onClick={() => setShown(PROJECTS.length)}
+              className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-6 py-3 text-sm font-medium text-foreground transition-colors hover:border-navy hover:text-navy"
+            >
+              View all {PROJECTS.length} projects
+              <ArrowRight size={15} strokeWidth={2} />
+            </button>
+          </div>
+        )}
       </div>
 
       {lightbox !== null && (
@@ -641,8 +677,8 @@ function Gallery() {
           onClick={() => setLightbox(null)}
         >
           <img
-            src={all[lightbox]}
-            alt={`Bathroom remodel by Bathwright, photo ${lightbox + 1}`}
+            src={ALL_PHOTOS[lightbox]}
+            alt="Bathroom remodel by Bathwright"
             width={900}
             height={1200}
             className="max-h-full max-w-full w-auto h-auto object-contain rounded-xl"
@@ -656,7 +692,7 @@ function Gallery() {
             <X size={20} strokeWidth={2} />
           </button>
           <div className="absolute bottom-5 left-1/2 -translate-x-1/2 text-xs tracking-widest uppercase text-white/70">
-            {lightbox < beforeImages.length ? "Before" : "After"} · {lightbox + 1} / {all.length}
+            {lightbox + 1} / {ALL_PHOTOS.length}
           </div>
         </div>
       )}
