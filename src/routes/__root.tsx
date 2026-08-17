@@ -73,22 +73,32 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Coastline Bath Co. — Luxury Bathroom Remodeling in Florida" },
-      { name: "description", content: "Florida's premier bathroom remodeling contractor. Transparent pricing, expert labor, and luxury finishes — built from scratch." },
-      { name: "author", content: "Coastline Bath Co." },
-      { property: "og:title", content: "Coastline Bath Co. — Luxury Bathroom Remodeling in Florida" },
-      { property: "og:description", content: "Transparent pricing. Expert craftsmanship. Florida's trusted luxury bathroom remodeling contractor." },
+      { title: "Bathwright | Bathroom Remodeling in Florida" },
+      { name: "description", content: "Luxury bathroom remodeling across Florida — Miami, Fort Lauderdale, Tampa and Orlando. Walk-in showers, tile, vanities and full renovations by licensed pros." },
+      { name: "author", content: "Bathwright" },
+      { property: "og:title", content: "Bathwright | Bathroom Remodeling in Florida" },
+      { property: "og:description", content: "Luxury bathroom remodeling across Florida — Miami, Fort Lauderdale, Tampa and Orlando. Walk-in showers, tile, vanities and full renovations by licensed pros." },
       { property: "og:type", content: "website" },
-      { property: "og:image", content: "/og-image.jpg" },
+      { property: "og:image", content: "https://www.bathwright.us/og-image.jpg" },
+      { property: "og:url", content: "https://www.bathwright.us/" },
+      { property: "og:site_name", content: "Bathwright" },
+      { property: "og:locale", content: "en_US" },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      { property: "og:image:alt", content: "Bathwright — bathroom remodeling in Florida" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:image", content: "/og-image.jpg" },
+      { name: "twitter:title", content: "Bathwright | Bathroom Remodeling in Florida" },
+      { name: "twitter:description", content: "Luxury bathroom remodeling across Florida — Miami, Fort Lauderdale, Tampa and Orlando. Walk-in showers, tile, vanities and full renovations by licensed pros." },
+      { name: "twitter:image", content: "https://www.bathwright.us/og-image.jpg" },
+      { name: "theme-color", content: "#ffffff" },
+      { name: "robots", content: "index, follow" },
     ],
     links: [
+      { rel: "canonical", href: "https://www.bathwright.us/" },
       { rel: "stylesheet", href: appCss },
-      { rel: "preconnect", href: "https://fonts.googleapis.com" },
-      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" },
+      { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
       { rel: "icon", href: "/favicon.png", type: "image/png" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
     ],
   }),
   shellComponent: RootShell,
@@ -102,6 +112,36 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang="en">
       <head>
         <HeadContent />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "HomeAndConstructionBusiness",
+              "@id": "https://www.bathwright.us/#business",
+              name: "Bathwright",
+              description:
+                "Luxury bathroom remodeling across Florida — walk-in showers, tile, vanities and full renovations.",
+              url: "https://www.bathwright.us/",
+              image: "https://www.bathwright.us/og-image.jpg",
+              email: "hello@bathwright.us",
+              priceRange: "$$$",
+              areaServed: [
+                { "@type": "State", name: "Florida" },
+                { "@type": "City", name: "Miami" },
+                { "@type": "City", name: "Fort Lauderdale" },
+                { "@type": "City", name: "Tampa" },
+                { "@type": "City", name: "Orlando" },
+              ],
+              knowsAbout: [
+                "bathroom remodeling",
+                "walk-in shower installation",
+                "tile installation",
+                "vanity installation",
+              ],
+            }),
+          }}
+        />
       </head>
       <body>
         {children}

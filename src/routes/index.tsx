@@ -10,18 +10,17 @@ import {
   ArrowLeft,
   ArrowRight,
   RotateCcw,
-  ChevronDown,
   Phone,
   Mail,
   MapPin,
 } from "lucide-react";
-import heroBathroom from "@/assets/hero-bathroom.jpg";
-import gallery1 from "@/assets/gallery-1.jpg";
-import gallery2 from "@/assets/gallery-2.jpg";
-import gallery3 from "@/assets/gallery-3.jpg";
-import gallery4 from "@/assets/gallery-4.jpg";
-import gallery5 from "@/assets/gallery-5.jpg";
-import gallery6 from "@/assets/gallery-6.jpg";
+import heroBathroom from "@/assets/hero-bathroom.webp";
+import gallery1 from "@/assets/gallery-1.webp";
+import gallery2 from "@/assets/gallery-2.webp";
+import gallery3 from "@/assets/gallery-3.webp";
+import gallery4 from "@/assets/gallery-4.webp";
+import gallery5 from "@/assets/gallery-5.webp";
+import gallery6 from "@/assets/gallery-6.webp";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -48,8 +47,8 @@ function Nav() {
     <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-background/80 border-b border-border">
       <div className="mx-auto max-w-6xl px-5 sm:px-8 h-16 flex items-center justify-between">
         <a href="#top" className="flex items-center gap-2">
-          <span className="h-8 w-8 rounded-md bg-navy grid place-items-center text-navy-foreground font-display text-lg">C</span>
-          <span className="font-display text-lg tracking-tight">Coastline Bath Co.</span>
+          <span className="h-8 w-8 rounded-md bg-navy grid place-items-center text-navy-foreground font-display text-lg">B</span>
+          <span className="font-display text-lg tracking-tight">Bathwright</span>
         </a>
         <a
           href="#contact"
@@ -70,6 +69,8 @@ function Hero() {
         alt="Luxury modern Florida bathroom with freestanding tub"
         width={1920}
         height={1280}
+        loading="eager"
+        fetchPriority="high"
         className="absolute inset-0 h-full w-full object-cover"
       />
       <div className="absolute inset-0 bg-gradient-to-b from-navy/60 via-navy/30 to-navy/80 sm:bg-gradient-to-r sm:from-navy/85 sm:via-navy/50 sm:to-transparent" />
@@ -203,9 +204,9 @@ const SCOPES = [
 ] as const;
 
 const TIERS = [
-  { id: "standard", name: "Standard", tag: "Builder Grade", matLow: 8000, matHigh: 18000, img: gallery4, feats: ["Ceramic & basic porcelain tile", "Standard vanity & mirror", "Chrome fixtures", "Two-piece toilet"] },
-  { id: "premium", name: "Premium", tag: "Most Requested", matLow: 18000, matHigh: 34000, img: gallery2, feats: ["Custom porcelain tile", "Double vanity & quartz", "Brushed nickel or matte black", "Frameless glass shower"] },
-  { id: "luxury", name: "Luxury", tag: "Signature Finish", matLow: 34000, matHigh: 70000, img: gallery1, feats: ["Natural stone & book-matched slabs", "Freestanding soaking tub", "Smart toilet & heated floors", "Brass or designer fixtures"] },
+  { id: "standard", name: "Standard", tag: "Builder Grade", matLow: 8000, matHigh: 18000, img: gallery4, iw: 1200, ih: 1000, feats: ["Ceramic & basic porcelain tile", "Standard vanity & mirror", "Chrome fixtures", "Two-piece toilet"] },
+  { id: "premium", name: "Premium", tag: "Most Requested", matLow: 18000, matHigh: 34000, img: gallery2, iw: 1200, ih: 900, feats: ["Custom porcelain tile", "Double vanity & quartz", "Brushed nickel or matte black", "Frameless glass shower"] },
+  { id: "luxury", name: "Luxury", tag: "Signature Finish", matLow: 34000, matHigh: 70000, img: gallery1, iw: 1200, ih: 1500, feats: ["Natural stone & book-matched slabs", "Freestanding soaking tub", "Smart toilet & heated floors", "Brass or designer fixtures"] },
 ] as const;
 
 const fmtK = (n: number) => {
@@ -294,7 +295,7 @@ function Pricing() {
           {isSummary && size && scope && tier && (
             <div>
               <div className="relative h-44 sm:h-56 w-full overflow-hidden">
-                <img src={tier.img} alt={`${tier.name} finish example`} className="h-full w-full object-cover" />
+                <img src={tier.img} alt={`${tier.name} finish example`} width={tier.iw} height={tier.ih} loading="lazy" className="h-full w-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-navy/40 to-navy/10" />
                 <div className="absolute bottom-4 left-6 right-6">
                   <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-white/80">Your estimate</div>
@@ -371,7 +372,7 @@ function TierCard({ tier, selected, onClick }: { tier: (typeof TIERS)[number]; s
   return (
     <button onClick={onClick} aria-pressed={selected} className={`text-left rounded-2xl overflow-hidden border h-full flex flex-col transition ${selected ? "border-navy border-2 bg-slate-soft" : "border-border hover:border-navy/30"}`}>
       <div className="relative aspect-[4/3] w-full overflow-hidden">
-        <img src={tier.img} alt={`${tier.name} finish example`} className="h-full w-full object-cover" loading="lazy" />
+        <img src={tier.img} alt={`${tier.name} finish example`} width={tier.iw} height={tier.ih} className="h-full w-full object-cover" loading="lazy" />
         <div className="absolute top-2 left-2 text-[10px] uppercase tracking-widest bg-card/90 px-2 py-1 rounded-full text-navy">{tier.tag}</div>
         {selected && (
           <span className="absolute top-2 right-2 h-6 w-6 rounded-full bg-navy grid place-items-center text-navy-foreground">
@@ -525,7 +526,7 @@ function Process() {
                 >
                   {s.n}
                 </span>
-                <div className={`transition-all duration-500 ease-out ${active ? "opacity-100 translate-y-0" : "opacity-45 translate-y-1"}`}>
+                <div className={`transition-all duration-500 ease-out ${active ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"}`}>
                   <div className="font-display text-2xl">{s.title}</div>
                   <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{s.desc}</p>
                 </div>
@@ -540,12 +541,12 @@ function Process() {
 
 function Gallery() {
   const images = [
-    { src: gallery1, alt: "Before and after bathroom remodel", h: "row-span-2" },
-    { src: gallery2, alt: "Luxury walk-in shower with marble tile", h: "" },
-    { src: gallery3, alt: "Custom double vanity with quartz countertop", h: "row-span-2" },
-    { src: gallery4, alt: "Freestanding soaking tub with sunset view", h: "" },
-    { src: gallery5, alt: "Marble tile detail with brass drain", h: "row-span-2" },
-    { src: gallery6, alt: "Navy powder room with marble wall", h: "" },
+    { src: gallery1, alt: "Before and after bathroom remodel", h: "row-span-2", w: 1200, hPx: 1500 },
+    { src: gallery2, alt: "Luxury walk-in shower with marble tile", h: "", w: 1200, hPx: 900 },
+    { src: gallery3, alt: "Custom double vanity with quartz countertop", h: "row-span-2", w: 1200, hPx: 1400 },
+    { src: gallery4, alt: "Freestanding soaking tub with sunset view", h: "", w: 1200, hPx: 1000 },
+    { src: gallery5, alt: "Marble tile detail with brass drain", h: "row-span-2", w: 1200, hPx: 1300 },
+    { src: gallery6, alt: "Navy powder room with marble wall", h: "", w: 1200, hPx: 900 },
   ];
   return (
     <section className="py-20 sm:py-28 px-5 sm:px-8">
@@ -557,7 +558,10 @@ function Gallery() {
               <img
                 src={img.src}
                 alt={img.alt}
+                width={img.w}
+                height={img.hPx}
                 loading="lazy"
+                decoding="async"
                 className="h-full w-full object-cover hover:scale-105 transition-transform duration-700"
               />
             </div>
@@ -569,7 +573,6 @@ function Gallery() {
 }
 
 function Contact() {
-  const [submitted, setSubmitted] = useState(false);
   return (
     <section id="contact" className="py-20 sm:py-28 px-5 sm:px-8">
       <div className="mx-auto max-w-6xl">
@@ -582,95 +585,61 @@ function Contact() {
                 sub="Tell us about your project. We'll respond within one business day with next steps and a scheduled on-site visit."
               />
               <div className="mt-8 space-y-3 text-sm">
-                <div className="flex items-center gap-3 text-foreground"><Phone size={16} className="text-navy" /> (305) 555-0182</div>
-                <div className="flex items-center gap-3 text-foreground"><Mail size={16} className="text-navy" /> hello@coastlinebath.co</div>
+                {/* TODO(pre-deploy): replace with the real business phone number */}
+                <div className="flex items-center gap-3 text-foreground"><Phone size={16} className="text-navy" /> (000) 000-0000</div>
+                <div className="flex items-center gap-3 text-foreground"><Mail size={16} className="text-navy" /> hello@bathwright.us</div>
                 <div className="flex items-center gap-3 text-foreground"><MapPin size={16} className="text-navy" /> Serving all of Florida</div>
               </div>
             </div>
 
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                setSubmitted(true);
-              }}
-              className="lg:col-span-3 grid gap-4 sm:grid-cols-2"
-            >
-              <Field label="Full Name" name="name" placeholder="Jane Doe" />
-              <Field label="Email" name="email" type="email" placeholder="jane@example.com" />
-              <Field label="Phone" name="phone" type="tel" placeholder="(305) 555-0100" />
-              <Field label="Zip Code" name="zip" placeholder="33101" inputMode="numeric" />
-              <Select label="Estimated Bathroom Size" name="size">
-                <option>Under 40 sq ft (Powder)</option>
-                <option>40 – 80 sq ft (Standard)</option>
-                <option>80 – 120 sq ft (Large)</option>
-                <option>120+ sq ft (Primary Suite)</option>
-              </Select>
-              <Select label="Desired Finish Quality" name="quality">
-                <option>Standard</option>
-                <option>Premium</option>
-                <option>Luxury</option>
-              </Select>
-              <div className="sm:col-span-2 mt-2">
-                <button
-                  type="submit"
-                  className="w-full inline-flex items-center justify-center rounded-full bg-navy text-navy-foreground px-6 py-4 text-sm font-semibold hover:opacity-95 transition shadow-elegant"
+            <div className="lg:col-span-3">
+              <div className="rounded-2xl bg-card border border-border p-6 sm:p-8 shadow-card">
+                <h3 className="font-display text-2xl tracking-tight text-foreground">Send us the details</h3>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  Email is the fastest way to reach us. Include the points below and we'll come back with a written estimate and a proposed on-site visit.
+                </p>
+                <ul className="mt-6 space-y-2.5 text-sm text-foreground">
+                  {[
+                    "Approximate bathroom size in square feet",
+                    "Desired finish quality — Standard, Premium or Luxury",
+                    "Your zip code",
+                    "Ideal start date",
+                  ].map((item) => (
+                    <li key={item} className="flex items-start gap-2.5">
+                      <span className="mt-0.5 grid place-items-center h-4 w-4 rounded-full bg-navy text-navy-foreground shrink-0">
+                        <Check size={11} strokeWidth={2.5} />
+                      </span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+                <a
+                  href="mailto:hello@bathwright.us?subject=Bathroom%20remodel%20quote%20request&body=Bathroom%20size%3A%20%0AFinish%20quality%3A%20%0AZip%20code%3A%20%0AIdeal%20start%20date%3A%20%0A%0ANotes%3A%20%0A"
+                  className="group mt-8 flex items-center justify-center gap-2.5 w-full h-[52px] rounded-full bg-navy text-navy-foreground text-sm font-semibold tracking-wide transition-shadow hover:shadow-elegant"
                 >
-                  {submitted ? "Thank you — we'll be in touch." : "Get Your Custom Quote"}
-                </button>
-                <p className="mt-3 text-xs text-muted-foreground text-center">
+                  <Mail size={16} strokeWidth={2} />
+                  Email hello@bathwright.us
+                  <span className="grid place-items-center h-6 w-6 rounded-full bg-gold text-navy transition-transform duration-300 group-hover:translate-x-1">
+                    <ArrowRight size={14} strokeWidth={2.25} />
+                  </span>
+                </a>
+                {/* TODO(pre-deploy): replace with the real business phone number */}
+                <a
+                  href="tel:+10000000000"
+                  className="mt-3 flex items-center justify-center gap-2.5 w-full h-[52px] rounded-full border border-border bg-background text-sm font-medium text-foreground transition-colors hover:border-navy hover:text-navy"
+                >
+                  <Phone size={16} strokeWidth={2} />
+                  Call (000) 000-0000
+                </a>
+                <p className="mt-4 text-xs text-muted-foreground text-center">
                   Licensed & insured in Florida. Your information stays private.
                 </p>
               </div>
-            </form>
+            </div>
           </div>
         </div>
       </div>
     </section>
-  );
-}
-
-function Field({
-  label,
-  name,
-  type = "text",
-  placeholder,
-  inputMode,
-}: {
-  label: string;
-  name: string;
-  type?: string;
-  placeholder?: string;
-  inputMode?: "numeric" | "text";
-}) {
-  return (
-    <label className="block">
-      <span className="text-xs font-medium text-foreground">{label}</span>
-      <input
-        required
-        type={type}
-        name={name}
-        placeholder={placeholder}
-        inputMode={inputMode}
-        className="mt-1.5 w-full rounded-xl border border-border bg-card px-4 py-3 text-sm outline-none focus:border-navy focus:ring-2 focus:ring-navy/15 transition"
-      />
-    </label>
-  );
-}
-
-function Select({ label, name, children }: { label: string; name: string; children: React.ReactNode }) {
-  return (
-    <label className="block">
-      <span className="text-xs font-medium text-foreground">{label}</span>
-      <div className="relative mt-1.5">
-        <select
-          name={name}
-          className="w-full appearance-none rounded-xl border border-border bg-card px-4 py-3 pr-10 text-sm outline-none focus:border-navy focus:ring-2 focus:ring-navy/15 transition"
-        >
-          {children}
-        </select>
-        <ChevronDown size={16} className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-      </div>
-    </label>
   );
 }
 
@@ -680,8 +649,8 @@ function Footer() {
       <div className="mx-auto max-w-6xl grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
         <div>
           <div className="flex items-center gap-2">
-            <span className="h-8 w-8 rounded-md bg-white/10 grid place-items-center font-display text-lg">C</span>
-            <span className="font-display text-lg">Coastline Bath Co.</span>
+            <span className="h-8 w-8 rounded-md bg-white/10 grid place-items-center font-display text-lg">B</span>
+            <span className="font-display text-lg">Bathwright</span>
           </div>
           <p className="mt-4 text-sm text-white/70 max-w-xs">
             Florida's premier bathroom remodeling contractor. Transparent from the first quote to the final reveal.
@@ -689,10 +658,11 @@ function Footer() {
         </div>
         <FooterCol title="Services" items={["Full Remodels", "Custom Tiling", "Plumbing", "Fixtures"]} />
         <FooterCol title="Company" items={["Our Process", "Pricing Guide", "Gallery", "Contact"]} />
-        <FooterCol title="Contact" items={["(305) 555-0182", "hello@coastlinebath.co", "Serving all of Florida", "Lic. #CGC1500000"]} />
+        {/* TODO(pre-deploy): replace with the real FL contractor license number */}
+        <FooterCol title="Contact" items={["(000) 000-0000", "hello@bathwright.us", "Serving all of Florida", "Lic. #XXXXXXX"]} />
       </div>
       <div className="mx-auto max-w-6xl mt-12 pt-6 border-t border-white/10 text-xs text-white/60 flex flex-col sm:flex-row justify-between gap-2">
-        <span>© {new Date().getFullYear()} Coastline Bath Co. All rights reserved.</span>
+        <span>© {new Date().getFullYear()} Bathwright. All rights reserved.</span>
         <span>Licensed & insured in the State of Florida.</span>
       </div>
     </footer>
