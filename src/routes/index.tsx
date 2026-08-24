@@ -16,6 +16,7 @@ import {
   X,
 } from "lucide-react";
 import heroBathroom from "@/assets/hero-bathroom.webp";
+import { Nav, Footer } from "@/components/site-chrome";
 const projectFiles = import.meta.glob("@/assets/projects/*.webp", {
   eager: true,
   import: "default",
@@ -61,24 +62,6 @@ function Index() {
   );
 }
 
-function Nav() {
-  return (
-    <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-background/80 border-b border-border">
-      <div className="mx-auto max-w-6xl px-5 sm:px-8 h-16 flex items-center justify-between">
-        <a href="#top" className="flex items-center gap-2">
-          <span className="h-8 w-8 rounded-md bg-navy grid place-items-center text-navy-foreground font-display text-lg">B</span>
-          <span className="font-display text-lg tracking-tight">Bathwright</span>
-        </a>
-        <a
-          href="#contact"
-          className="hidden sm:inline-flex items-center rounded-full bg-navy text-navy-foreground px-4 py-2 text-sm font-medium hover:opacity-90 transition"
-        >
-          Get a Quote
-        </a>
-      </div>
-    </header>
-  );
-}
 
 function Hero() {
   return (
@@ -890,7 +873,7 @@ function Contact() {
               <div className="mt-8 space-y-3 text-sm">
                 <div className="flex items-center gap-3 text-foreground"><Phone size={16} className="text-navy" /> <a href="tel:+12394511643" className="hover:text-navy transition-colors">(239) 451-1643</a></div>
                 <div className="flex items-center gap-3 text-foreground"><Phone size={16} className="text-navy" /> <a href="tel:+12392076443" className="hover:text-navy transition-colors">(239) 207-6443</a></div>
-                <div className="flex items-center gap-3 text-foreground"><Mail size={16} className="text-navy" /> hello@bathwright.us</div>
+                <div className="flex items-center gap-3 text-foreground"><Mail size={16} className="text-navy" /> <a href="mailto:contact@rofloor.us" className="hover:text-navy transition-colors">contact@rofloor.us</a></div>
                 <div className="flex items-center gap-3 text-foreground"><MapPin size={16} className="text-navy" /> Serving all of Florida</div>
               </div>
             </div>
@@ -917,11 +900,11 @@ function Contact() {
                   ))}
                 </ul>
                 <a
-                  href="mailto:hello@bathwright.us?subject=Bathroom%20remodel%20quote%20request&body=Bathroom%20size%3A%20%0AFinish%20quality%3A%20%0AZip%20code%3A%20%0AIdeal%20start%20date%3A%20%0A%0ANotes%3A%20%0A"
+                  href="mailto:contact@rofloor.us?subject=Bathroom%20remodel%20quote%20request&body=Bathroom%20size%3A%20%0AFinish%20quality%3A%20%0AZip%20code%3A%20%0AIdeal%20start%20date%3A%20%0A%0ANotes%3A%20%0A"
                   className="group mt-8 flex items-center justify-center gap-2.5 w-full h-[52px] rounded-full bg-navy text-navy-foreground text-sm font-semibold tracking-wide transition-shadow hover:shadow-elegant"
                 >
                   <Mail size={16} strokeWidth={2} />
-                  Email hello@bathwright.us
+                  Email contact@rofloor.us
                   <span className="grid place-items-center h-6 w-6 rounded-full bg-gold text-navy transition-transform duration-300 group-hover:translate-x-1">
                     <ArrowRight size={14} strokeWidth={2.25} />
                   </span>
@@ -952,40 +935,4 @@ function Contact() {
   );
 }
 
-function Footer() {
-  return (
-    <footer className="bg-navy text-navy-foreground px-5 sm:px-8 py-14">
-      <div className="mx-auto max-w-6xl grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-        <div>
-          <div className="flex items-center gap-2">
-            <span className="h-8 w-8 rounded-md bg-white/10 grid place-items-center font-display text-lg">B</span>
-            <span className="font-display text-lg">Bathwright</span>
-          </div>
-          <p className="mt-4 text-sm text-white/70 max-w-xs">
-            Florida's premier bathroom remodeling contractor. Transparent from the first quote to the final reveal.
-          </p>
-        </div>
-        <FooterCol title="Services" items={["Full Remodels", "Custom Tiling", "Plumbing", "Fixtures"]} />
-        <FooterCol title="Company" items={["Our Process", "Pricing Guide", "Gallery", "Contact"]} />
-        <FooterCol title="Contact" items={["(239) 451-1643", "(239) 207-6443", "hello@bathwright.us", "Serving all of Florida", "RoFLOOR LLC"]} />
-      </div>
-      <div className="mx-auto max-w-6xl mt-12 pt-6 border-t border-white/10 text-xs text-white/60 flex flex-col sm:flex-row justify-between gap-2">
-        <span>© {new Date().getFullYear()} Bathwright. All rights reserved.</span>
-        <span>Licensed & insured in the State of Florida.</span>
-      </div>
-    </footer>
-  );
-}
 
-function FooterCol({ title, items }: { title: string; items: string[] }) {
-  return (
-    <div>
-      <div className="text-xs uppercase tracking-[0.18em] text-white/60">{title}</div>
-      <ul className="mt-4 space-y-2 text-sm text-white/85">
-        {items.map((i) => (
-          <li key={i}>{i}</li>
-        ))}
-      </ul>
-    </div>
-  );
-}
