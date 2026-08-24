@@ -211,7 +211,7 @@ function Services() {
 }
 
 const SIZES = [
-  { id: "small", label: "Small", sqft: 40, note: "Powder or guest bath", ppsfLow: 225, ppsfHigh: 350 },
+  { id: "small", label: "Small", sqft: 40, note: "Powder or guest bath", ppsfLow: 130, ppsfHigh: 250 },
   { id: "medium", label: "Medium", sqft: 60, note: "Standard full bath", ppsfLow: 175, ppsfHigh: 350 },
   { id: "large", label: "Large", sqft: 90, note: "Primary or ensuite", ppsfLow: 225, ppsfHigh: 350 },
 ] as const;
@@ -889,6 +889,7 @@ function Contact() {
               />
               <div className="mt-8 space-y-3 text-sm">
                 <div className="flex items-center gap-3 text-foreground"><Phone size={16} className="text-navy" /> <a href="tel:+12394511643" className="hover:text-navy transition-colors">(239) 451-1643</a></div>
+                <div className="flex items-center gap-3 text-foreground"><Phone size={16} className="text-navy" /> <a href="tel:+12392076443" className="hover:text-navy transition-colors">(239) 207-6443</a></div>
                 <div className="flex items-center gap-3 text-foreground"><Mail size={16} className="text-navy" /> hello@bathwright.us</div>
                 <div className="flex items-center gap-3 text-foreground"><MapPin size={16} className="text-navy" /> Serving all of Florida</div>
               </div>
@@ -932,6 +933,13 @@ function Contact() {
                   <Phone size={16} strokeWidth={2} />
                   Call (239) 451-1643
                 </a>
+                <a
+                  href="tel:+12392076443"
+                  className="mt-3 flex items-center justify-center gap-2.5 w-full h-[52px] rounded-full border border-border bg-background text-sm font-medium text-foreground transition-colors hover:border-navy hover:text-navy"
+                >
+                  <Phone size={16} strokeWidth={2} />
+                  Call (239) 207-6443
+                </a>
                 <p className="mt-4 text-xs text-muted-foreground text-center">
                   Licensed & insured in Florida. Your information stays private.
                 </p>
@@ -959,7 +967,7 @@ function Footer() {
         </div>
         <FooterCol title="Services" items={["Full Remodels", "Custom Tiling", "Plumbing", "Fixtures"]} />
         <FooterCol title="Company" items={["Our Process", "Pricing Guide", "Gallery", "Contact"]} />
-        <FooterCol title="Contact" items={["(239) 451-1643", "hello@bathwright.us", "Serving all of Florida", "Cornel Bucur · Owner"]} />
+        <FooterCol title="Contact" items={["(239) 451-1643", "(239) 207-6443", "hello@bathwright.us", "Serving all of Florida", "RoFLOOR LLC"]} />
       </div>
       <div className="mx-auto max-w-6xl mt-12 pt-6 border-t border-white/10 text-xs text-white/60 flex flex-col sm:flex-row justify-between gap-2">
         <span>© {new Date().getFullYear()} Bathwright. All rights reserved.</span>

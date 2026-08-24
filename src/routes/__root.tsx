@@ -125,8 +125,8 @@ function RootShell({ children }: { children: ReactNode }) {
               url: "https://www.bathwright.us/",
               image: "https://www.bathwright.us/og-image.jpg",
               email: "hello@bathwright.us",
-              telephone: "+1-239-451-1643",
-              founder: { "@type": "Person", name: "Cornel Bucur" },
+              telephone: ["+1-239-451-1643", "+1-239-207-6443"],
+              legalName: "RoFLOOR LLC",
               priceRange: "$$$",
               areaServed: [
                 { "@type": "State", name: "Florida" },
