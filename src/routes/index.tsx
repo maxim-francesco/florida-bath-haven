@@ -7,6 +7,7 @@ import {
   ShowerHead,
   ShieldCheck,
   Check,
+  ChevronDown,
   ArrowLeft,
   ArrowRight,
   RotateCcw,
@@ -56,6 +57,7 @@ function Index() {
       <Gallery />
       <MoneyGoes />
       <Process />
+      <FAQ />
       <Contact />
       <Footer />
     </div>
@@ -853,6 +855,64 @@ function Gallery() {
           </div>
         </div>
       )}
+    </section>
+  );
+}
+
+
+const FAQS = [
+  {
+    q: "What does a cosmetic refresh actually include?",
+    a: "The bathroom stays largely as it is, but is made to look new. That usually means repainting walls and ceiling, a new mirror, light fixtures and accessories, new faucets, handles and holders, and often a new vanity, countertop or toilet. Existing surfaces can be refinished rather than replaced.",
+  },
+  {
+    q: "What is not included in a cosmetic refresh?",
+    a: "It does not involve demolishing the bathroom, moving the shower or toilet, replacing supply or drain lines, rewiring, or stripping out all the floor and wall tile. If any of those are needed, the job is a mid-range remodel or a full gut renovation instead.",
+  },
+  {
+    q: "How is a mid-range remodel different?",
+    a: "It is more than a refresh but short of a premium rebuild. Floor and wall tile are replaced, along with the shower or tub and its surrounds, the vanity, countertop, sink, faucets, toilet, mirror and lighting. Some plumbing may be touched, but fixtures stay roughly where they are.",
+  },
+  {
+    q: "What does a full gut renovation involve?",
+    a: "Everything comes out down to the bare structure. Tile, tub or shower and vanity are removed, walls opened where needed, supply and drain lines checked and replaced if required, electrical rewired, substrate repaired, and new waterproofing installed in the shower. Everything then goes back new, and the shower, toilet or vanity can be relocated.",
+  },
+  {
+    q: "Is the price the calculator gives me binding?",
+    a: "No. Any estimate or range shown on this website is preliminary and for information only. Every project is confirmed by an on-site inspection, and the final price and scope are set out in a written contract before any work begins.",
+  },
+  {
+    q: "Does the $6,000 shower package really cover everything?",
+    a: "It covers the full replacement of a standard-size enclosure: removing and hauling away the old tub or shower, repairing the substrate, full waterproofing on walls and pan, tile supplied and installed, a new valve, head and drain, a glass door or screen, and the final trim and clean. Larger showers, or ones being moved to a new position, are quoted separately.",
+  },
+];
+
+function FAQ() {
+  return (
+    <section id="faq" className="py-20 sm:py-28 px-5 sm:px-8 bg-slate-soft">
+      <div className="mx-auto max-w-3xl">
+        <SectionHeader
+          eyebrow="Common Questions"
+          title="What people ask before they call."
+          sub="If your question isn't here, phone us — we'd rather explain it properly than guess in writing."
+        />
+        <div className="mt-12 space-y-3">
+          {FAQS.map((item) => (
+            <details
+              key={item.q}
+              className="group rounded-2xl border border-border bg-card px-5 sm:px-6 py-4 shadow-card"
+            >
+              <summary className="flex cursor-pointer items-start justify-between gap-4 list-none [&::-webkit-details-marker]:hidden">
+                <span className="font-display text-lg sm:text-xl text-foreground">{item.q}</span>
+                <span className="mt-1 shrink-0 grid place-items-center h-6 w-6 rounded-full bg-slate-soft text-navy transition-transform duration-300 group-open:rotate-180">
+                  <ChevronDown size={14} strokeWidth={2.25} />
+                </span>
+              </summary>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{item.a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
     </section>
   );
 }

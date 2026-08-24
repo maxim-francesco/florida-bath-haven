@@ -152,6 +152,27 @@ function RootShell({ children }: { children: ReactNode }) {
             }),
           }}
         />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              mainEntity: [
+                ["What does a cosmetic refresh actually include?", "The bathroom stays largely as it is, but is made to look new. That usually means repainting walls and ceiling, a new mirror, light fixtures and accessories, new faucets, handles and holders, and often a new vanity, countertop or toilet. Existing surfaces can be refinished rather than replaced."],
+                ["What is not included in a cosmetic refresh?", "It does not involve demolishing the bathroom, moving the shower or toilet, replacing supply or drain lines, rewiring, or stripping out all the floor and wall tile. If any of those are needed, the job is a mid-range remodel or a full gut renovation instead."],
+                ["How is a mid-range remodel different?", "It is more than a refresh but short of a premium rebuild. Floor and wall tile are replaced, along with the shower or tub and its surrounds, the vanity, countertop, sink, faucets, toilet, mirror and lighting. Some plumbing may be touched, but fixtures stay roughly where they are."],
+                ["What does a full gut renovation involve?", "Everything comes out down to the bare structure. Tile, tub or shower and vanity are removed, walls opened where needed, supply and drain lines checked and replaced if required, electrical rewired, substrate repaired, and new waterproofing installed in the shower. Everything then goes back new, and the shower, toilet or vanity can be relocated."],
+                ["Is the price the calculator gives me binding?", "No. Any estimate or range shown on this website is preliminary and for information only. Every project is confirmed by an on-site inspection, and the final price and scope are set out in a written contract before any work begins."],
+                ["Does the $6,000 shower package really cover everything?", "It covers the full replacement of a standard-size enclosure: removing and hauling away the old tub or shower, repairing the substrate, full waterproofing on walls and pan, tile supplied and installed, a new valve, head and drain, a glass door or screen, and the final trim and clean. Larger showers, or ones being moved to a new position, are quoted separately."],
+              ].map(([name, text]) => ({
+                "@type": "Question",
+                name,
+                acceptedAnswer: { "@type": "Answer", text },
+              })),
+            }),
+          }}
+        />
       </head>
       <body>
         {children}

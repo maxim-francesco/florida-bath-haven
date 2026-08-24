@@ -60,6 +60,7 @@ export function Footer() {
             { label: "Pricing Guide", href: "/#pricing" },
             { label: "Shower Package", href: "/#offer" },
             { label: "Gallery", href: "/#gallery" },
+            { label: "FAQ", href: "/#faq" },
             { label: "Contact", href: "/#contact" },
           ]}
         />
