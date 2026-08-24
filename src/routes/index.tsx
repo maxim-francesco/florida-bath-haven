@@ -51,6 +51,7 @@ function Index() {
       <Hero />
       <Services />
       <Pricing />
+      <ShowerOffer />
       <Gallery />
       <MoneyGoes />
       <Process />
@@ -651,6 +652,139 @@ function ProjectBlock({
         </div>
       )}
     </div>
+  );
+}
+
+function BeforeAfterSlider({ before, after }: { before: string; after: string }) {
+  const [pos, setPos] = useState(50);
+  return (
+    <div className="relative w-full overflow-hidden rounded-2xl aspect-[4/5] sm:aspect-[4/3] bg-slate-soft select-none">
+      <img
+        src={after}
+        alt="Completed walk-in shower by Bathwright"
+        width={900}
+        height={1200}
+        loading="lazy"
+        decoding="async"
+        className="absolute inset-0 h-full w-full object-cover"
+      />
+      <div
+        className="absolute inset-0 h-full w-full overflow-hidden"
+        style={{ clipPath: `inset(0 ${100 - pos}% 0 0)` }}
+      >
+        <img
+          src={before}
+          alt="The same shower before the remodel"
+          width={900}
+          height={1200}
+          loading="lazy"
+          decoding="async"
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+      </div>
+
+      <span className="pointer-events-none absolute top-3 left-3 rounded-full bg-card/95 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-navy">
+        Before
+      </span>
+      <span className="pointer-events-none absolute top-3 right-3 rounded-full bg-navy/90 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-navy-foreground">
+        After
+      </span>
+
+      <div
+        className="pointer-events-none absolute inset-y-0 w-[3px] bg-card shadow-elegant"
+        style={{ left: `calc(${pos}% - 1.5px)` }}
+      >
+        <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-11 w-11 grid place-items-center rounded-full bg-card shadow-elegant">
+          <ArrowLeft size={13} strokeWidth={2.5} className="text-navy" />
+          <ArrowRight size={13} strokeWidth={2.5} className="text-navy -ml-0.5" />
+        </span>
+      </div>
+
+      <input
+        type="range"
+        min={0}
+        max={100}
+        value={pos}
+        onChange={(e) => setPos(Number(e.target.value))}
+        aria-label="Drag to compare before and after"
+        className="absolute inset-0 h-full w-full cursor-ew-resize opacity-0"
+      />
+    </div>
+  );
+}
+
+function ShowerOffer() {
+  const includes = [
+    "Old tub or shower removed and hauled away",
+    "Substrate repaired and made square",
+    "Full waterproofing membrane on walls and pan",
+    "Tile supplied and installed, your choice of finish",
+    "New shower valve, head and drain",
+    "Glass door or screen fitted",
+    "Silicone, trim and a final clean",
+  ];
+  return (
+    <section id="offer" className="py-20 sm:py-28 px-5 sm:px-8 bg-navy text-navy-foreground">
+      <div className="mx-auto max-w-6xl">
+        <div className="grid gap-10 lg:grid-cols-2 lg:gap-14 lg:items-center">
+          <div>
+            <div className="inline-flex items-center gap-2 rounded-full bg-gold px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-navy">
+              <ShowerHead size={13} strokeWidth={2.25} />
+              Shower Package
+            </div>
+            <h2 className="mt-5 font-display text-4xl sm:text-5xl leading-[1.05]">
+              A new walk-in shower, start to finish.
+            </h2>
+            <p className="mt-4 text-sm leading-relaxed text-white/75 max-w-md">
+              One price, one crew, one scope. We tear out the old enclosure, rebuild it
+              properly, and hand it back watertight — no line items added halfway
+              through.
+            </p>
+
+            <div className="mt-8 flex items-baseline gap-3">
+              <span className="font-display text-5xl sm:text-6xl">$6,000</span>
+              <span className="text-xs uppercase tracking-[0.16em] text-white/60">
+                Flat rate
+              </span>
+            </div>
+
+            <ul className="mt-8 grid gap-2.5 sm:grid-cols-2">
+              {includes.map((item) => (
+                <li key={item} className="flex items-start gap-2.5 text-sm text-white/85">
+                  <span className="mt-0.5 grid place-items-center h-4 w-4 rounded-full bg-gold text-navy shrink-0">
+                    <Check size={11} strokeWidth={2.5} />
+                  </span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+
+            <div className="mt-8">
+              <a
+                href="#contact"
+                className="group inline-flex items-center justify-center gap-2.5 h-[52px] px-7 rounded-full bg-card text-navy text-sm font-semibold tracking-wide transition-shadow hover:shadow-elegant"
+              >
+                Book this package
+                <span className="grid place-items-center h-6 w-6 rounded-full bg-gold text-navy transition-transform duration-300 group-hover:translate-x-1">
+                  <ArrowRight size={14} strokeWidth={2.25} />
+                </span>
+              </a>
+              <p className="mt-4 flex items-center gap-2 text-xs text-white/60">
+                <ShieldCheck size={14} strokeWidth={2} />
+                Standard-size enclosures. Larger or relocated showers are quoted separately.
+              </p>
+            </div>
+          </div>
+
+          <div>
+            <BeforeAfterSlider before={PROJECTS[0].before[0]} after={PROJECTS[0].after[0]} />
+            <p className="mt-3 text-center text-xs text-white/55">
+              Drag the handle to compare
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
 
