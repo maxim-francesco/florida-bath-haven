@@ -272,7 +272,7 @@ function Pricing() {
         <SectionHeader
           eyebrow="Transparent Pricing"
           title="The detailed pricing guide."
-          sub="Two quick steps. Our rates are per square foot, all in — labor, materials and permits."
+          sub="Answer two questions and we'll show you the range — all in, covering labor, materials and permits."
         />
 
         <div className="mt-10 mx-auto max-w-3xl rounded-3xl bg-card border border-border shadow-elegant overflow-hidden">
@@ -292,7 +292,7 @@ function Pricing() {
               <div className="px-6 sm:px-8 pt-3 pb-6">
                 <div className="grid gap-3 sm:grid-cols-3">
                   {step === 0 && SIZES.map((s) => (
-                    <OptionCard key={s.id} selected={sizeId === s.id} onClick={() => setSizeId(s.id)} title={s.label} sub={s.note} meta={`~${s.sqft} sq ft · $${s.ppsfLow}–${s.ppsfHigh}/sq ft`} />
+                    <OptionCard key={s.id} selected={sizeId === s.id} onClick={() => setSizeId(s.id)} title={s.label} sub={s.note} meta={`~${s.sqft} sq ft`} />
                   ))}
                   {step === 1 && SCOPES.map((s) => (
                     <ScopeCard key={s.id} scope={s} selected={scopeId === s.id} onClick={() => setScopeId(s.id)} />
@@ -301,9 +301,17 @@ function Pricing() {
               </div>
 
               <div className="border-t border-border bg-card px-6 sm:px-8 py-4 flex items-center justify-between gap-4">
-                <div>
-                  <div className="text-[10px] uppercase tracking-[0.1em] text-muted-foreground">Estimate so far</div>
-                  <div className="font-display text-2xl text-navy leading-tight">{size ? `${fmtK(totalLow)} – ${fmtK(totalHigh)}` : "—"}</div>
+                <div className="min-w-0">
+                  <div className="text-[10px] uppercase tracking-[0.1em] text-muted-foreground">
+                    {step === 0 ? "Start here" : "Almost there"}
+                  </div>
+                  <div className="font-display text-lg sm:text-xl text-navy leading-tight truncate">
+                    {step === 0
+                      ? "Pick your bathroom size"
+                      : size
+                        ? `${size.label} · ${size.sqft} sq ft`
+                        : "Choose a scope of work"}
+                  </div>
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
                   {step > 0 && (
@@ -312,7 +320,7 @@ function Pricing() {
                     </button>
                   )}
                   <button onClick={() => canNext && setStep((s) => s + 1)} disabled={!canNext} className={`h-11 px-5 rounded-xl text-sm font-medium inline-flex items-center gap-1.5 transition ${canNext ? "bg-navy text-navy-foreground hover:opacity-90" : "bg-border text-muted-foreground cursor-not-allowed"}`}>
-                    {step === 1 ? "See estimate" : "Next"}
+                    {step === 1 ? "Reveal my price" : "Next"}
                     <ArrowRight size={16} strokeWidth={1.75} />
                   </button>
                 </div>
