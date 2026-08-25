@@ -196,7 +196,7 @@ function Services() {
 }
 
 const SIZES = [
-  { id: "small", label: "Small", sqft: 40, note: "Powder or guest bath", ppsfLow: 130, ppsfHigh: 250 },
+  { id: "small", label: "Small", sqft: 40, note: "Powder or guest bath", ppsfLow: 225, ppsfHigh: 350 },
   { id: "medium", label: "Medium", sqft: 60, note: "Standard full bath", ppsfLow: 175, ppsfHigh: 350 },
   { id: "large", label: "Large", sqft: 90, note: "Primary or ensuite", ppsfLow: 225, ppsfHigh: 350 },
 ] as const;
