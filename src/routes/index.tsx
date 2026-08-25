@@ -717,13 +717,13 @@ function BeforeAfterSlider({ before, after }: { before: string; after: string })
 
 function ShowerOffer() {
   const includes = [
-    "Old tub or shower removed and hauled away",
-    "Substrate repaired and made square",
-    "Full waterproofing membrane on walls and pan",
-    "Tile supplied and installed, your choice of finish",
-    "New shower valve, head and drain",
-    "Glass door or screen fitted",
-    "Silicone, trim and a final clean",
+    "Demolition, with all debris hauled away",
+    "New valve, drain and pipes",
+    "Built-in niche and seat",
+    "Durock cement board and full waterproofing",
+    "Tile installed on the walls and shower floor",
+    "Shower doors installed complete",
+    "Two-year warranty on the labor",
   ];
   return (
     <section id="offer" className="py-20 sm:py-28 px-5 sm:px-8 bg-navy text-navy-foreground">
@@ -738,17 +738,21 @@ function ShowerOffer() {
               A new walk-in shower, start to finish.
             </h2>
             <p className="mt-4 text-sm leading-relaxed text-white/75 max-w-md">
-              One price, one crew, one scope. We tear out the old enclosure, rebuild it
-              properly, and hand it back watertight — no line items added halfway
-              through.
+              One price, one crew, one scope. We tear the old enclosure out, rebuild it
+              properly, and hand it back watertight — with a two-year warranty on the
+              work.
             </p>
 
             <div className="mt-8 flex items-baseline gap-3">
               <span className="font-display text-5xl sm:text-6xl">$6,000</span>
               <span className="text-xs uppercase tracking-[0.16em] text-white/60">
-                Flat rate
+                Labor only
               </span>
             </div>
+            <p className="mt-3 text-sm text-white/70 max-w-md">
+              Materials — tile, doors, valve and fittings — are billed separately at
+              cost. You choose them; we install them.
+            </p>
 
             <ul className="mt-8 grid gap-2.5 sm:grid-cols-2">
               {includes.map((item) => (
@@ -773,7 +777,7 @@ function ShowerOffer() {
               </a>
               <p className="mt-4 flex items-center gap-2 text-xs text-white/60">
                 <ShieldCheck size={14} strokeWidth={2} />
-                Standard-size enclosures. Larger or relocated showers are quoted separately.
+                Standard-size enclosures. Larger showers, or showers being moved to a new position, are quoted separately.
               </p>
             </div>
           </div>
@@ -892,7 +896,7 @@ const FAQS = [
   },
   {
     q: "Does the $6,000 shower package really cover everything?",
-    a: "It covers the full replacement of a standard-size enclosure: removing and hauling away the old tub or shower, repairing the substrate, full waterproofing on walls and pan, tile supplied and installed, a new valve, head and drain, a glass door or screen, and the final trim and clean. Larger showers, or ones being moved to a new position, are quoted separately.",
+    a: "It covers the labor for a full shower rebuild: demolition and debris removal, new valve, drain and pipes, a built-in niche and seat, Durock cement board with full waterproofing, tile installed on the walls and shower floor, and shower doors fitted complete. Materials are not included in the $6,000 — they are billed separately. The labor carries a two-year warranty. Larger showers, or ones being moved to a new position, are quoted separately.",
   },
 ];
 
