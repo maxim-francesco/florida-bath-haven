@@ -195,10 +195,13 @@ function Services() {
   );
 }
 
+const RATE_LOW = 130;
+const RATE_HIGH = 250;
+
 const SIZES = [
-  { id: "small", label: "Small", sqft: 40, note: "Powder or guest bath", ppsfLow: 225, ppsfHigh: 350 },
-  { id: "medium", label: "Medium", sqft: 60, note: "Standard full bath", ppsfLow: 175, ppsfHigh: 350 },
-  { id: "large", label: "Large", sqft: 90, note: "Primary or ensuite", ppsfLow: 225, ppsfHigh: 350 },
+  { id: "small", label: "Small", sqft: 40, note: "Powder or guest bath" },
+  { id: "medium", label: "Medium", sqft: 60, note: "Standard full bath" },
+  { id: "large", label: "Large", sqft: 90, note: "Primary or ensuite" },
 ] as const;
 
 const SCOPES = [
@@ -248,10 +251,7 @@ function Pricing() {
   const scope = SCOPES.find((s) => s.id === scopeId) ?? null;
 
   const MARGIN = 0.1;
-  const ppsf =
-    size && scope
-      ? size.ppsfLow + (size.ppsfHigh - size.ppsfLow) * scope.anchor
-      : 0;
+  const ppsf = scope ? RATE_LOW + (RATE_HIGH - RATE_LOW) * scope.anchor : 0;
   const anchorTotal = size ? size.sqft * ppsf : 0;
   const totalLow = anchorTotal * (1 - MARGIN);
   const totalHigh = anchorTotal * (1 + MARGIN);
@@ -342,7 +342,7 @@ function Pricing() {
                   <div className="text-[10px] uppercase tracking-[0.1em] text-muted-foreground">How this is calculated</div>
                   <div className="mt-1 font-display text-xl text-navy">{size.sqft} sq ft × ~${Math.round(ppsf)}/sq ft</div>
                   <p className="text-[11px] text-muted-foreground mt-1.5 leading-relaxed">
-                    A {scope.name.toLowerCase()} sits at the {scope.position} of our ${size.ppsfLow}–${size.ppsfHigh} range for a {size.label.toLowerCase()} bathroom. Your written quote confirms the exact figure after an on-site visit.
+                    A {scope.name.toLowerCase()} sits at the {scope.position} of our ${RATE_LOW}–${RATE_HIGH} per square foot range. Your written quote confirms the exact figure after an on-site visit.
                   </p>
                 </div>
                 <ul className="mt-5 grid gap-1.5 sm:grid-cols-2 text-xs text-muted-foreground">
