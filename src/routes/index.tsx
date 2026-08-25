@@ -208,6 +208,7 @@ const SCOPES = [
     tag: "Lightest Touch",
     desc: "The bathroom stays as it is, but looks new.",
     position: "lower end",
+    anchor: 0,
     img: PROJECTS[0].after[0],
     feats: ["Walls and ceiling repainted", "New mirror, lighting and hardware", "New faucets, handles and holders", "New vanity, countertop or toilet", "No demolition, nothing relocated"],
   },
@@ -217,6 +218,7 @@ const SCOPES = [
     tag: "Most Requested",
     desc: "More than a refresh, short of a full rebuild.",
     position: "middle",
+    anchor: 0.5,
     img: PROJECTS[3].after[0],
     feats: ["New floor and wall tile", "New shower or tub, including surrounds", "New vanity, countertop and sink", "New toilet, mirror and lighting", "Fixtures stay roughly in place"],
   },
@@ -226,6 +228,7 @@ const SCOPES = [
     tag: "Down To The Studs",
     desc: "Stripped back to structure and rebuilt.",
     position: "upper end",
+    anchor: 1,
     img: PROJECTS[6].after[0],
     feats: ["Everything removed to bare structure", "Supply and drain lines checked, replaced as needed", "Electrical rewired", "New shower waterproofing", "Shower, toilet or vanity can be relocated"],
   },
@@ -244,8 +247,14 @@ function Pricing() {
   const size = SIZES.find((s) => s.id === sizeId) ?? null;
   const scope = SCOPES.find((s) => s.id === scopeId) ?? null;
 
-  const totalLow = size ? size.sqft * size.ppsfLow : 0;
-  const totalHigh = size ? size.sqft * size.ppsfHigh : 0;
+  const MARGIN = 0.1;
+  const ppsf =
+    size && scope
+      ? size.ppsfLow + (size.ppsfHigh - size.ppsfLow) * scope.anchor
+      : 0;
+  const anchorTotal = size ? size.sqft * ppsf : 0;
+  const totalLow = anchorTotal * (1 - MARGIN);
+  const totalHigh = anchorTotal * (1 + MARGIN);
 
   const steps = ["Size", "Scope of work"];
   const isSummary = step === 2;
@@ -327,13 +336,13 @@ function Pricing() {
                 <div className="flex flex-wrap gap-2">
                   <Chip>{size.label} · {size.sqft} sq ft</Chip>
                   <Chip>{scope.name}</Chip>
-                  <Chip>${size.ppsfLow}–${size.ppsfHigh}/sq ft</Chip>
+                  <Chip>~${Math.round(ppsf)}/sq ft</Chip>
                 </div>
                 <div className="mt-6 rounded-xl bg-slate-soft p-4">
                   <div className="text-[10px] uppercase tracking-[0.1em] text-muted-foreground">How this is calculated</div>
-                  <div className="mt-1 font-display text-xl text-navy">{size.sqft} sq ft × ${size.ppsfLow}–${size.ppsfHigh}</div>
+                  <div className="mt-1 font-display text-xl text-navy">{size.sqft} sq ft × ~${Math.round(ppsf)}/sq ft</div>
                   <p className="text-[11px] text-muted-foreground mt-1.5 leading-relaxed">
-                    A {scope.name.toLowerCase()} sits at the {scope.position} of this range. Your written quote confirms the exact figure after an on-site visit.
+                    A {scope.name.toLowerCase()} sits at the {scope.position} of our ${size.ppsfLow}–${size.ppsfHigh} range for a {size.label.toLowerCase()} bathroom. Your written quote confirms the exact figure after an on-site visit.
                   </p>
                 </div>
                 <ul className="mt-5 grid gap-1.5 sm:grid-cols-2 text-xs text-muted-foreground">
